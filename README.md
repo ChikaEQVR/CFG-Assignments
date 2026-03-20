@@ -6,7 +6,7 @@
 
 **1.** Created GitHub account.\
 **2.** Created a private repository named CFG-Assignments.\
-**3.** Created README.md using ***seven!*** diefferent markdown text formatting features. :)\
+**3.** Created README.md using ***six plus!*** diefferent markdown text formatting features. :)\
 **4.** What I did in my local repo - explaining with screenshots.
 
 *`git clone`* to clone this remote repo to my local repo.
