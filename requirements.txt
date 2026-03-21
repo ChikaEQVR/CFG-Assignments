@@ -1,0 +1,2 @@
+requirement.txt is for Python.
+The file serves as a list of items to be installed by pip when using pip install.
