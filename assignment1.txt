@@ -1,3 +1,9 @@
 This file is created to add to assignment1 branch and commit in assintment1 branch.
 
-All the commands demonstrated in this assignment is shown in the screenshots in README.md file 
+What I did in local repository:
+1. Cloned the remote repository in GitHub into my local repository. *Created README.md when created the remote repo.
+3. Created a new branch called 'assignment1' then created a new text file in assignment1 branch then add -> commit.
+4. I realised I skipped to set main as my main branch so I switched to main and 'git branch -M main'.
+5. To push my assignment1 branch to the remote repo, I switched branch then pushed.
+
+All the commands demonstrated in local repo for this assignment are shown in the screenshots in README.md file. 
