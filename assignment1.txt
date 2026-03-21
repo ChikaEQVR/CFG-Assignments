@@ -1,9 +1,32 @@
-This file is created to add to assignment1 branch and commit in assintment1 branch.
+This file is telling what I have done in my local repository.
+All the commands demonstrated in local repo for this assignment are shown in the screenshots in README.md file. 
 
-What I did in local repository:
+What I did in my local repository:
 1. Cloned the remote repository in GitHub into my local repository. *Created README.md when created the remote repo.
+
 3. Created a new branch called 'assignment1' then created a new text file in assignment1 branch then add -> commit.
+
 4. I realised I skipped to set main as my main branch so I switched to main and 'git branch -M main'.
+
 5. To push my assignment1 branch to the remote repo, I switched branch then pushed.
 
-All the commands demonstrated in local repo for this assignment are shown in the screenshots in README.md file. 
+6.  Create .gitignore file. I wrote '*.xls' and 'ignore*' in the file; 
+    - *.xls : telling to ignore any xls files.
+    - ignore* : telling to ignore any type of files starting a name with a word 'ignore'.
+    
+7. Create requirements.txt file.
+
+These are the commands I demonstrated in my local repository;
+    - git status : to show all the files information added / removed.
+    - git branch <new branch> : to create a branch.
+    - git add : to add files to a branch.
+    - git commit -m "messages" : to commit with meaningful messages.
+    - git push -u origin main / git push origin <branch> : 
+        to connect the branches for the first time and send the changes from local repo to remote repo.
+    - git push : whenever send the changes from local repo to remote repo after the initial push
+    - git pull : to get the most up-to-date version of the remote repository in my local repository before I push my latest files.
+    - git switch <branch> : to switch to a branch
+    - git checkout <branch> : another way to switch to a branch
+    - ls : to list files and directories
+    - ls -a: to list all files and directories including hidden items like git file
+    - :q : to close the editor to carry on
