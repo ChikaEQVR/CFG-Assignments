@@ -21,7 +21,7 @@ These are the commands I demonstrated in my local repository;
     - git branch <new branch> : to create a branch.
     - git add : to add files to a branch.
     - git commit -m "messages" : to commit with meaningful messages.
-    - git push -u origin main / git push origin <branch> : 
+    - git push -u origin main / git push -u origin <branch> : 
         to connect the branches for the first time and send the changes from local repo to remote repo.
     - git push : whenever send the changes from local repo to remote repo after the initial push
     - git pull : to get the most up-to-date version of the remote repository in my local repository before I push my latest files.
