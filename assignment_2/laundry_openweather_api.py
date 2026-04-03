@@ -52,20 +52,6 @@ except InvalidEntry as e:
     print(f"Error: {e}. Please type again.")
 
 
-# class InvalidEntry(Exception):
-#     pass
-
-# try:
-#     code_pattern = "^[a-zA-Z]{2}$"
-#     country_code = input("Enter your country code: ")
-#     if not re.match(code_pattern, country_code):
-#         raise InvalidEntry("Input is not alphabet. Enter with 2 alphabets")
-    
-#     print(country_code)
-
-# except InvalidEntry as e :
-#     print(f"Error: {e}")    
-
 location_info_with_postcode_url = f"http://api.openweathermap.org/geo/1.0/zip?zip={postcode},{country_code}&appid={OpenWeather_api_key}"
 response = requests.get(location_info_with_postcode_url)
 location_info_with_postcode = response.json()
@@ -119,6 +105,12 @@ sunrise_time = weather_data["sys"]["sunrise"]
 print(f"Sunrise is {display_time(sunrise_time)}")
 
 
+# GET / 3 hourly forecast API endpoint: api.openweathermap.org/data/2.5/forecast?lat={lat}&lon={lon}&appid={API key}
+forecast_data_url = f"https://api.openweathermap.org/data/2.5/forecast?lat={lat}&lon={lon}&appid={OpenWeather_api_key}"
+response = requests.get(forecast_data_url, params=params)
+forecast_data = response.json()
+
+print(forecast_data)
 
 
 # import extra module eg panda to save to csv
