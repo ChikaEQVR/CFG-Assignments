@@ -8,18 +8,63 @@
 # explain how i am using the api:
 # expalined in README.md file
 
-# get api key
-OpenWeather_api_key = "b3adcd4f1beaa3665b4c04d6ee7024a8"
 
 import requests
 import json
+import re
+
+# get api key
+OpenWeather_api_key = "b3adcd4f1beaa3665b4c04d6ee7024a8"
 
 # Direct geocoding to get the location information to use in Open Weather API
 # Get geographic information with postcode
 # For Resource for iso_country_code.csv (original name: all.csv): https://github.com/lukes/ISO-3166-Countries-with-Regional-Codes/tree/master/all
 
-postcode = input("Enter your postcode: ")
-country_code = input("Enter your country code: ")
+# import panda as pd to read iso_country_code.csv
+import pandas as pd
+
+country_codes_dataframe = pd.read_csv("iso_country_code.csv")
+print(country_codes_dataframe)
+
+country_name_or_code = input("Enter country name or country code: ")
+country_name_dataframe = country_codes_dataframe[country_codes_dataframe["name"] == country_name_or_code]
+print(country_name_dataframe)
+if len(country_name_dataframe) == 0:
+    country_name_dataframe = country_codes_dataframe[country_codes_dataframe["alpha-2"] == country_name_or_code]
+    if len(country_name_dataframe) == 0:
+        raise Exception("you have typed in the invalid country name or code")
+    
+country_code = country_name_dataframe.iloc[0,1]
+print(country_code)
+
+class InvalidEntry(Exception):
+    pass
+
+try:
+
+    postcode = input("Enter your postcode: ")
+    if not re.match(r"^[A-Z]{1,2}[0-9][0-9A-Z]? [0-9][ABD-HJLNP-UW-Z]{2}$", postcode):
+        raise InvalidEntry("Invalid postcode")
+
+    print(postcode)
+
+except InvalidEntry as e:
+    print(f"Error: {e}. Please type again.")
+
+
+# class InvalidEntry(Exception):
+#     pass
+
+# try:
+#     code_pattern = "^[a-zA-Z]{2}$"
+#     country_code = input("Enter your country code: ")
+#     if not re.match(code_pattern, country_code):
+#         raise InvalidEntry("Input is not alphabet. Enter with 2 alphabets")
+    
+#     print(country_code)
+
+# except InvalidEntry as e :
+#     print(f"Error: {e}")    
 
 location_info_with_postcode_url = f"http://api.openweathermap.org/geo/1.0/zip?zip={postcode},{country_code}&appid={OpenWeather_api_key}"
 response = requests.get(location_info_with_postcode_url)
