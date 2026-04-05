@@ -62,7 +62,7 @@ class InvalidEntry(Exception):
     pass
 
 try:
-    postcode = input("Enter your postcode: ")
+    postcode = input("Enter your postcode: ").upper()
     if not re.match(r"^[A-Z]{1,2}[0-9][0-9A-Z]? [0-9][ABD-HJLNP-UW-Z]{2}$", postcode):
         raise InvalidEntry("Invalid postcode")
     print(postcode)
