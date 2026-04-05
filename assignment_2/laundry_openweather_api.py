@@ -21,16 +21,18 @@ OpenWeather_api_key = "b3adcd4f1beaa3665b4c04d6ee7024a8"
 # For Resource for iso_country_code.csv (original name: all.csv): https://github.com/lukes/ISO-3166-Countries-with-Regional-Codes/tree/master/all
 
 # import panda as pd to read iso_country_code.csv
+# use boolean values and if..else stat,emts to branch logic of your program
+
 import pandas as pd
 
 country_codes_dataframe = pd.read_csv("iso_country_code.csv")
 print(country_codes_dataframe)
 
-country_name_or_code = input("Enter country name or country code: ")
-country_name_dataframe = country_codes_dataframe[country_codes_dataframe["name"] == country_name_or_code]
+country_name_or_code = input("Enter country name or country code: ").lower()
+country_name_dataframe = country_codes_dataframe[country_codes_dataframe["name"].lower() == country_name_or_code]
 print(country_name_dataframe)
 if len(country_name_dataframe) == 0:
-    country_name_dataframe = country_codes_dataframe[country_codes_dataframe["alpha-2"] == country_name_or_code]
+    country_name_dataframe = country_codes_dataframe[country_codes_dataframe["alpha-2"].lower() == country_name_or_code]
     if len(country_name_dataframe) == 0:
         raise Exception("you have typed in the invalid country name or code")
     
@@ -43,7 +45,7 @@ class InvalidEntry(Exception):
 try:
 
     postcode = input("Enter your postcode: ")
-    if not re.match(r"^[A-Z]{1,2}[0-9][0-9A-Z]? [0-9][ABD-HJLNP-UW-Z]{2}$", postcode):
+    if not re.match(r"^[A-Z]{1,2}[0-9][0-9A-Z]{1,2, }? [0-9][ABD-HJLNP-UW-Z]{2}$", postcode):
         raise InvalidEntry("Invalid postcode")
 
     print(postcode)
@@ -112,6 +114,22 @@ forecast_data = response.json()
 
 print(forecast_data)
 
+# use a for loop or while loop tp reduce repetition
+# use a data structure like list, dictionary, set or tuple to store values
+
+my_list = forecast_data['list']
+
+for my_data in my_list:
+    my_dt = display_time(my_data["dt"])   # to get time from 'list' key
+    my_main = my_data["main"] # another dictionary in 'list' key so to get value 'main' to resuse to get value inside main dictionary instead of writing many key names each time.
+    temp = float(my_main["temp"])  # tempreture from 'main' dictionary
+    humidity = int(my_main["humidity"])  # humidity from 'main' dictionary
+    speed = speed_convert_calculation_to_mph(my_data["wind"]["speed"])    # speed from 'wind' dictionary in 'list' dictionary
+    print(f"time : {my_dt}, tempreture(°C) : {temp}, humidity(%) : {humidity}, wind(mph) : {speed}")
+    
+# calculate yes / no/ maybe
+# best slot so far
+
 
 # import extra module eg panda to save to csv
 
@@ -127,10 +145,10 @@ print(forecast_data)
 # use string slicing
 
 
-# use a for loop or while loop tp reduce repetition
 
 
-# use a data structure like list, dictionary, set or tuple to store values
+
+
 
 
 # use boolean values and if..else stat,emts to branch logic of your program
