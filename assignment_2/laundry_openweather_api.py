@@ -12,6 +12,7 @@
 # Section 1. import all the modules required to run the code in laundry_openweather_api.py
 import requests
 import json
+import datetime
 import re
 import secret # to get openweather api key so no need to share here
 import pandas as pd # to read iso_country_code.csv
@@ -103,10 +104,10 @@ weather_data = response.json()
 print(weather_data) # to check for me
 
 # result #1: current weather information
-result1_current_weather = print(
-    f"Current weather in {loc_name} is {weather_data["weather"][0]["main"]}.""\n"
-    f"Temperature is {int(weather_data["main"]["temp"])}°C and you feel like {int(weather_data["main"]["feels_like"])}°C.""\n"
-    )
+current_weather = f"Current weather in {loc_name} is {weather_data["weather"][0]["main"]}"
+current_temp = f"Temperature is {int(weather_data["main"]["temp"])}°C and you feel like {int(weather_data["main"]["feels_like"])}°C."
+result1_current_weather = current_weather + "\n" + current_temp
+print(result1_current_weather)
 
 
 # Section 6. create functions with returns to make code reusable
@@ -127,9 +128,8 @@ print(f"Wind speed is {wind_speed_mph}mph.")
 This function is to convert utc unix time to readable time: %H:%M
 """
 def display_datetime(utc_unix_time):
-    import datetime
     x = datetime.datetime.fromtimestamp(utc_unix_time)
-    return x.strftime("%d/%b %H:%M")
+    return x.strftime("%Y/%d/%b %H:%M")
 
 # def display_time(utc_unix_time):
 #     import datetime
@@ -140,6 +140,7 @@ def display_datetime(utc_unix_time):
 # to check if the function is working
 sunrise_time = weather_data["sys"]["sunrise"]
 print(f"Sunrise is {display_datetime(sunrise_time)}")
+print(f"Sunset is {display_datetime(weather_data["sys"]["sunset"])}")
 
 
 # Section 7. get 3 hourly forecast from OpenWeather API using the variables from Section 2 & 4
@@ -167,6 +168,37 @@ best_time_sofar = None
 best_temp_sofar = 0
 lowest_humidity_sofar = 100
 
+# calculate yes / maybe / no and create a tuple list then get the overall reulst of when to put the laundry outside
+my_decision_list = []
+for my_data in my_list:
+    my_dt = display_datetime(my_data["dt"])   # to get time from 'list' key
+    my_main = my_data["main"] # another dictionary in 'list' key so to get value 'main' to resuse to get value inside main dictionary instead of writing many key names each time.
+    temp = float(my_main["temp"])  # tempreture from 'main' dictionary
+    humidity = int(my_main["humidity"])  # humidity from 'main' dictionary
+    speed = speed_convert_calculation_to_mph(my_data["wind"]["speed"])    # speed from 'wind' dictionary in 'list' dictionary
+    if temp >= 21 and humidity < 70 and speed >= 15:
+        my_decision_list.append( (f"{my_dt}", "best") )
+    elif 21 > temp >= 15 and humidity < 70 and 15 > speed >=8:
+        my_decision_list.append( (f"{my_dt}", "ok") )
+    elif 15 >= temp > 10 and humidity < 70 and 15 > speed >=8:
+        my_decision_list.append( (f"{my_dt}", "maybe") )
+    else:
+        my_decision_list.append( (f"{my_dt}", "no") )
+
+print(my_decision_list)   
+
+my_good_for_outside_list = [ my_decision for my_decision in my_decision_list if my_decision[1] in ["yes", "ok", "maybe"]]
+
+result2_good_time_for_laundry = f"List of good time to put laundry outside is {my_good_for_outside_list}"
+print(result2_good_time_for_laundry) # to check for me
+
+# another calculation to choose the best time
+good_times_for_laundry = [datetime.datetime.strptime(time_str,"%Y/%d/%b %H:%M") for (time_str, decision) in my_good_for_outside_list]
+good_time_for_laundry_only_morning = [morning for morning in good_times_for_laundry if morning.hour < 12]
+print(good_time_for_laundry_only_morning)
+
+
+
 # for my_data in my_list:
 #     my_dt = display_datetime(my_data["dt"])   # to get time from 'list' key
 #     my_main = my_data["main"] # another dictionary in 'list' key so to get value 'main' to resuse to get value inside main dictionary instead of writing many key names each time.
@@ -176,8 +208,8 @@ lowest_humidity_sofar = 100
 #     # print(f"time : {my_dt}, tempreture(°C) : {temp}, humidity(%) : {humidity}, wind(mph) : {speed}")
    
 #    # calculate yes / no/ maybe
-#     if temp >= 10 and humidity < 70 and speed > 10:
-#         print("yes") 
+#     if temp >= 21 and humidity < 70 and speed >= 15:
+#         print("best") 
 #         print(f"time : {my_dt}, tempreture(°C) : {temp}, humidity(%) : {humidity}, wind(mph) : {speed}")
    
 #         if  humidity <= lowest_humidity_sofar:
@@ -185,39 +217,22 @@ lowest_humidity_sofar = 100
 #             best_temp_sofar = temp
 #             lowest_humidity_sofar = humidity
 #             print(f"Found better humidity: {humidity}")
-        
-#     elif 12 >= temp > 10 and humidity < 70 and speed > 12:
+
+#     elif 21 > temp >= 15 and humidity < 70 and 15 > speed >=8:
+#         print("ok")    
+#     elif 15 >= temp > 10 and humidity < 70 and 15 > speed >=8:
 #         print("maybe")
 #     else:
 #         print("no")
 
-# calculate yes / maybe / no touple list
-my_yes_maybe_no_list = []
-for my_data in my_list:
-    my_dt = display_datetime(my_data["dt"])   # to get time from 'list' key
-    my_main = my_data["main"] # another dictionary in 'list' key so to get value 'main' to resuse to get value inside main dictionary instead of writing many key names each time.
-    temp = float(my_main["temp"])  # tempreture from 'main' dictionary
-    humidity = int(my_main["humidity"])  # humidity from 'main' dictionary
-    speed = speed_convert_calculation_to_mph(my_data["wind"]["speed"])    # speed from 'wind' dictionary in 'list' dictionary
-    if temp >= 10 and humidity < 70 and speed > 10:
-        my_yes_maybe_no_list.append( (f"{my_dt}", "yes") )
-    elif 12 >= temp > 10 and humidity < 70 and speed > 12:
-        my_yes_maybe_no_list.append( (f"{my_dt}", "maybe") )
-    else:
-        my_yes_maybe_no_list.append( (f"{my_dt}", "no") )
 
-print(my_yes_maybe_no_list)   
-
-my_yes_maybe_list = [ my_yes_maybe for my_yes_maybe in my_yes_maybe_no_list if my_yes_maybe[1] == "yes" or my_yes_maybe[1] == "maybe"]
-
-print(my_yes_maybe_list)
 
 
 # final_results = f"I recomend the best time to put laundry outside is {best_time_sofar}: tempreture: {best_temp_sofar}°C / Humidity: {lowest_humidity_sofar}%"
 # print(final_results)
 
 # with open ("final_results.txt", "w") as file:
-#     file.write(f"{result1_current_weather}\n, {final_results}")
+#     file.write(f"{result1_current_weather}\n{result2_good_time_for_laundry}\n{final_results}")
 
 
 
