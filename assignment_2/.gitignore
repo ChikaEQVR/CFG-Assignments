@@ -1,5 +1,7 @@
 venv/*
 test.py
-OpenWeather_api_key.txt
 example.json
+secret.py
 .vscode/*
+__pycache__/*
+test2.py
