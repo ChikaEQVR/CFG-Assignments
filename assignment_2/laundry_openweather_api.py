@@ -125,10 +125,30 @@ for my_data in my_list:
     temp = float(my_main["temp"])  # tempreture from 'main' dictionary
     humidity = int(my_main["humidity"])  # humidity from 'main' dictionary
     speed = speed_convert_calculation_to_mph(my_data["wind"]["speed"])    # speed from 'wind' dictionary in 'list' dictionary
-    print(f"time : {my_dt}, tempreture(°C) : {temp}, humidity(%) : {humidity}, wind(mph) : {speed}")
-    
-# calculate yes / no/ maybe
-# best slot so far
+    # print(f"time : {my_dt}, tempreture(°C) : {temp}, humidity(%) : {humidity}, wind(mph) : {speed}")
+   
+   # calculate yes / no/ maybe
+    if temp > 10 and humidity < 70 and speed > 10:
+        print("yes") 
+        print(f"time : {my_dt}, tempreture(°C) : {temp}, humidity(%) : {humidity}, wind(mph) : {speed}")
+   
+        if  humidity <= lowest_humidity_sofar:
+            best_time_sofar = my_dt
+            best_temp_sofar = temp
+            lowest_humidity_sofar = humidity
+            print(f"Found better humidity: {humidity}")
+
+
+        
+    elif 12 >= temp > 10 and humidity < 70 and speed > 12:
+        print("maybe")
+    else:
+        print("no")
+
+    # best slot so far
+
+print(f"I recomend the best time to put laundry outside is {best_time_sofar}: tempreture: {best_temp_sofar}°C / Humidity: {lowest_humidity_sofar}%")  
+
 
 
 # import extra module eg panda to save to csv
