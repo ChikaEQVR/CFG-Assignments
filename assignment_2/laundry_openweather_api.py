@@ -1,9 +1,8 @@
-# scenario 
-# I want to check the current wheather and weather forecast to see when is good to put laundry outside to dry.
-
-# explain how i am using the api:
-# expalined in README.md file
-
+##
+## Scenario : 
+##
+## I want to check the current weather and weather forecast to see when is good to put laundry outside to dry.
+##
 
 # Section 1. import all the modules required to run the code in laundry_openweather_api.py
 import requests
@@ -17,7 +16,7 @@ import pandas as pd # to read iso_country_code.csv
 APIs to use: 
 1. OpenWeather API - https://openweathermap.org/
 OpenWeather API to find out the current weather and wether forecast to determine when is good to put the laundry outside.
-Please sing up to create an account to get API key. API key is available under "API keys" once created an account.
+Please sign up to create an account to get API key. API key is available under "API keys" once created an account.
 Please create secret.py and create a dictionary called 'secrets'. 
 key name: openweather_api_key
 value: OpenWeather API key 
@@ -31,7 +30,6 @@ This API is used to get location infomation for OpenWeather API. API key to use 
 openweather_api_key = secret.secrets["openweather_api_key"]
 
 # Section 3. This part is all the information you need to call Geocoding API
-
 """
 Reference data used:
 1. iso_country_code.csv (original name: all.csv): https://github.com/lukes/ISO-3166-Countries-with-Regional-Codes/tree/master/all
@@ -41,12 +39,12 @@ This csv file has all the countries codes information
 This file used to reference when making condition of postcode format using Regular Expression
 """
 
-# use boolean values and if..else stat,emts to branch logic of your program
-# read 'iso_country_code.csv' with a table format using pandas
+# Use boolean values and if..else statemts to branch logic of my program
+# Read 'iso_country_code.csv' with a table format using pandas
 country_codes_dataframe = pd.read_csv("iso_country_code.csv")
 print(country_codes_dataframe)
 
-# for UK, country code: 'GB' or country name: 
+# Eg) for UK, country code: 'GB' or country name: 
 country_name_or_code = input("Enter country name or country code: eg) Japan or GB: ").lower()
 country_name_df = country_codes_dataframe[ country_codes_dataframe["name"].str.lower() == country_name_or_code ] # .str.lower: dataframe brings data as object so change into string format then set string format as lowercase.
 print(country_name_df) # to check for me if above code brings one row with all columns
@@ -59,16 +57,14 @@ if len(country_name_df) == 0: # if no rows comes back maching 'name' column,
 country_code = country_name_df.iloc[0,1] # bring data from row number 0 and column number 1 which is country code requires.
 print(country_code) # to check for me what country code comes back
 
-# raise Exception manually
+# Raise Exception manually
 class InvalidEntry(Exception):
     pass
 
 try:
-
     postcode = input("Enter your postcode: ")
     if not re.match(r"^[A-Z]{1,2}[0-9][0-9A-Z]? [0-9][ABD-HJLNP-UW-Z]{2}$", postcode):
         raise InvalidEntry("Invalid postcode")
-
     print(postcode)
 
 except InvalidEntry as e:
@@ -81,15 +77,13 @@ location_info_with_postcode = response.json()
 
 print(location_info_with_postcode) # to check for me
 
-# set variables to use in OpenWeather API
+# Set variables to use in OpenWeather API
 loc_name = location_info_with_postcode["name"]
 lat = location_info_with_postcode["lat"]
 lon = location_info_with_postcode["lon"]
 
-
 # Section 5. get some current weather information as json from OpenWeather API using the variables from Section 2 & 4
-
-# query the parameter to filter the API requests with metric unit
+# Query the parameter to filter the API requests with metric unit
 params = {
     "units" : "metric"
     }
@@ -100,15 +94,14 @@ weather_data = response.json()
 
 print(weather_data) # to check for me
 
-# result #1: current weather information
+# Result #1: current weather information
 current_weather = f"Current weather in {loc_name} is {weather_data["weather"][0]["main"]}"
-current_temp = f"Temperature is {int(weather_data["main"]["temp"])}°C and you feel like {int(weather_data["main"]["feels_like"])}°C."
+current_temp = f"Temperature is {int(weather_data["main"]["temp"])} C and you feel like {int(weather_data["main"]["feels_like"])} C."
 result1_current_weather = current_weather + "\n" + current_temp
 print(result1_current_weather)
 
-
 # Section 6. create functions with returns to make code reusable
-# function 1 with return
+# Function 1 with return
 """
 This function is to convert speed from meter per second to miles per hour
 
@@ -116,35 +109,29 @@ This function is to convert speed from meter per second to miles per hour
 def speed_convert_calculation_to_mph(meter_per_second):
     return int(meter_per_second * 3600 / 1609.34)
 
-# to check if the function is working
+# To check if the function is working
 wind_speed_mph = speed_convert_calculation_to_mph(weather_data["wind"]["speed"])
 print(f"Wind speed is {wind_speed_mph}mph.")
 
-# function 2 with return
+# Function 2 with return
 """
-This function is to convert utc unix time to readable time: %H:%M
+This function is to convert utc unix time to readable datetime: %Y/%b/%d %H:%M
 """
 def display_datetime(utc_unix_time):
     x = datetime.datetime.fromtimestamp(utc_unix_time)
     return x.strftime("%Y/%b/%d %H:%M")
 
-# def display_time(utc_unix_time):
-#     import datetime
-#     x = datetime.datetime.fromtimestamp(utc_unix_time)
-#     return x.strftime("%H:%M")
-
-# function 3 with return
+# Function 3 with return
 """
-This function is to convert utc unix time to datetime object
+This function is to convert utc unix time to usable datetime object
 """
 def to_datetime(utc_unix_time):
     return datetime.datetime.fromtimestamp(utc_unix_time)
 
-# to check if the function is working
+# To check if the function is working
 sunrise_time = weather_data["sys"]["sunrise"]
 print(f"Sunrise is {display_datetime(sunrise_time)}")
 print(f"Sunset is {display_datetime(weather_data["sys"]["sunset"])}")
-
 
 # Section 7. get 3 hourly forecast from OpenWeather API using the variables from Section 2 & 4
 forecast_data_url = f"https://api.openweathermap.org/data/2.5/forecast?lat={lat}&lon={lon}&appid={openweather_api_key}"
@@ -153,9 +140,8 @@ forecast_data = response.json()
 
 print(forecast_data) # to check for me
 
-# use a for loop or while loop tp reduce repetition
-# use a data structure like list, dictionary, set or tuple to store values
-
+# Use a for loop or while loop to reduce repetition
+# Use a data structure like list, dictionary, set or tuple to store values
 """
    Good condition for drying laundry outside is:
    Weather: dry
@@ -163,15 +149,9 @@ print(forecast_data) # to check for me
    Wind: 8-12mph (best more than 15mph)
    tempreture: above zero (preferable above 21 °C)
    time to dry: between 10am and 4pm
-
    """
-
+# Calculate yes / maybe / no and create a tuple list then get the overall reulst of when to put the laundry outside
 my_list = forecast_data['list']
-best_time_sofar = None
-best_temp_sofar = 0
-lowest_humidity_sofar = 100
-
-# calculate yes / maybe / no and create a tuple list then get the overall reulst of when to put the laundry outside
 my_decision_list = []
 my_all_data_dict = {}
 for my_data in my_list:
@@ -190,70 +170,28 @@ for my_data in my_list:
     else:
         my_decision_list.append( (my_dt, "no") )
 
-print(my_decision_list)   
+print(my_decision_list)   # to check for me
 
+# Filter only 'yes', 'ok' and 'maybe'
 my_good_for_outside_list = [ my_decision for my_decision in my_decision_list if my_decision[1] in ["yes", "ok", "maybe"]]
-good_times_for_laundry_str = [display_datetime(time) for (time, decision) in my_good_for_outside_list]
-result2_good_time_for_laundry = f"List of good time to put laundry outside is {good_times_for_laundry_str}"
+good_times_for_laundry_str = [display_datetime(time) for (time, decision) in my_good_for_outside_list] # changing time display to readable string
+result2_good_time_for_laundry = f"List of good times to put laundry outside is {good_times_for_laundry_str}"
 print(result2_good_time_for_laundry) # to check for me
 
-# another calculation to choose the best time
+# Filter only morning time from the 'my_good_for_outside_list'
 good_times_for_laundry = [to_datetime(time) for (time, decision) in my_good_for_outside_list]
-# good_times_for_laundry = [datetime.datetime.strptime(time_str,"%Y/%d/%b %H:%M") for (time_str, decision) in my_good_for_outside_list]
 good_time_for_laundry_only_morning = [morning for morning in good_times_for_laundry if morning.hour < 12]
-print(good_time_for_laundry_only_morning)
+print(good_time_for_laundry_only_morning) # to check for me
 
+# Pick up the earliest entry
 best_time_for_laundry = good_time_for_laundry_only_morning[0]
-print(my_all_data_dict)
+print(my_all_data_dict) # to check for me
 my_all_info_best_time_for_laundry = my_all_data_dict[best_time_for_laundry]
-print(my_all_info_best_time_for_laundry)
+print(my_all_info_best_time_for_laundry) # to check for me
 
-final_results = f"I recomend the best time to put laundry outside is {best_time_for_laundry}: tempreture: {my_all_info_best_time_for_laundry[0]}°C / Humidity: {my_all_info_best_time_for_laundry[1]}% / Wind: {my_all_info_best_time_for_laundry[2]}mph. "
-print(final_results)
+final_results = f"I recommend the best time to put laundry outside is {best_time_for_laundry}: Temperature: {my_all_info_best_time_for_laundry[0]} C / Humidity: {my_all_info_best_time_for_laundry[1]}% / Wind: {my_all_info_best_time_for_laundry[2]}mph. "
+print(final_results) # to check for me
 
+# Write your final results to a file (use syntax to write data into a file)  
 with open ("final_results.txt", "w") as file:
-    file.write(f"{result1_current_weather}\n{result2_good_time_for_laundry}\n{final_results}")
-
-# for my_data in my_list:
-#     my_dt = display_datetime(my_data["dt"])   # to get time from 'list' key
-#     my_main = my_data["main"] # another dictionary in 'list' key so to get value 'main' to resuse to get value inside main dictionary instead of writing many key names each time.
-#     temp = float(my_main["temp"])  # tempreture from 'main' dictionary
-#     humidity = int(my_main["humidity"])  # humidity from 'main' dictionary
-#     speed = speed_convert_calculation_to_mph(my_data["wind"]["speed"])    # speed from 'wind' dictionary in 'list' dictionary
-#     # print(f"time : {my_dt}, tempreture(°C) : {temp}, humidity(%) : {humidity}, wind(mph) : {speed}")
-   
-#    # calculate yes / no/ maybe
-#     if temp >= 21 and humidity < 70 and speed >= 15:
-#         print("best") 
-#         print(f"time : {my_dt}, tempreture(°C) : {temp}, humidity(%) : {humidity}, wind(mph) : {speed}")
-   
-#         if  humidity <= lowest_humidity_sofar:
-#             best_time_sofar = my_dt
-#             best_temp_sofar = temp
-#             lowest_humidity_sofar = humidity
-#             print(f"Found better humidity: {humidity}")
-
-#     elif 21 > temp >= 15 and humidity < 70 and 15 > speed >=8:
-#         print("ok")    
-#     elif 15 >= temp > 10 and humidity < 70 and 15 > speed >=8:
-#         print("maybe")
-#     else:
-#         print("no")
-
-
-
-
-
-
-
-
-
-
-
-
-
-# use string slicing
-
-
-
-# write your final results to a file (use syntax to write data into a file)   
+    file.write(f"{result1_current_weather}\n{result2_good_time_for_laundry}\n{final_results}") 
