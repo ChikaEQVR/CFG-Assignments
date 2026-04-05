@@ -1,9 +1,5 @@
 # scenario 
-# I want to check wheather forecast in the morning and see if it's good to put laundry outside to dry or not and best time to put outside.
-# Also want to know wheather you need to take an umbrella to keep me dry or another layer to keep me warm
-
-# explain how the instructor can set up api keys:
-# explained in README.md file
+# I want to check the current wheather and weather forecast to see when is good to put laundry outside to dry.
 
 # explain how i am using the api:
 # expalined in README.md file
@@ -20,6 +16,7 @@ import pandas as pd # to read iso_country_code.csv
 """
 APIs to use: 
 1. OpenWeather API - https://openweathermap.org/
+OpenWeather API to find out the current weather and wether forecast to determine when is good to put the laundry outside.
 Please sing up to create an account to get API key. API key is available under "API keys" once created an account.
 Please create secret.py and create a dictionary called 'secrets'. 
 key name: openweather_api_key
@@ -50,7 +47,7 @@ country_codes_dataframe = pd.read_csv("iso_country_code.csv")
 print(country_codes_dataframe)
 
 # for UK, country code: 'GB' or country name: 
-country_name_or_code = input("Enter country name or country code: ").lower()
+country_name_or_code = input("Enter country name or country code: eg) Japan or GB: ").lower()
 country_name_df = country_codes_dataframe[ country_codes_dataframe["name"].str.lower() == country_name_or_code ] # .str.lower: dataframe brings data as object so change into string format then set string format as lowercase.
 print(country_name_df) # to check for me if above code brings one row with all columns
 if len(country_name_df) == 0: # if no rows comes back maching 'name' column,
@@ -129,13 +126,19 @@ This function is to convert utc unix time to readable time: %H:%M
 """
 def display_datetime(utc_unix_time):
     x = datetime.datetime.fromtimestamp(utc_unix_time)
-    return x.strftime("%Y/%d/%b %H:%M")
+    return x.strftime("%Y/%b/%d %H:%M")
 
 # def display_time(utc_unix_time):
 #     import datetime
 #     x = datetime.datetime.fromtimestamp(utc_unix_time)
 #     return x.strftime("%H:%M")
 
+# function 3 with return
+"""
+This function is to convert utc unix time to datetime object
+"""
+def to_datetime(utc_unix_time):
+    return datetime.datetime.fromtimestamp(utc_unix_time)
 
 # to check if the function is working
 sunrise_time = weather_data["sys"]["sunrise"]
@@ -170,34 +173,46 @@ lowest_humidity_sofar = 100
 
 # calculate yes / maybe / no and create a tuple list then get the overall reulst of when to put the laundry outside
 my_decision_list = []
+my_all_data_dict = {}
 for my_data in my_list:
-    my_dt = display_datetime(my_data["dt"])   # to get time from 'list' key
+    my_dt = my_data["dt"]  # display_datetime(my_data["dt"])  # to get time from 'list' key
     my_main = my_data["main"] # another dictionary in 'list' key so to get value 'main' to resuse to get value inside main dictionary instead of writing many key names each time.
     temp = float(my_main["temp"])  # tempreture from 'main' dictionary
     humidity = int(my_main["humidity"])  # humidity from 'main' dictionary
     speed = speed_convert_calculation_to_mph(my_data["wind"]["speed"])    # speed from 'wind' dictionary in 'list' dictionary
+    my_all_data_dict[to_datetime(my_dt)] = (temp, humidity,speed)
     if temp >= 21 and humidity < 70 and speed >= 15:
-        my_decision_list.append( (f"{my_dt}", "best") )
+        my_decision_list.append( (my_dt, "best") )
     elif 21 > temp >= 15 and humidity < 70 and 15 > speed >=8:
-        my_decision_list.append( (f"{my_dt}", "ok") )
+        my_decision_list.append( (my_dt, "ok") )
     elif 15 >= temp > 10 and humidity < 70 and 15 > speed >=8:
-        my_decision_list.append( (f"{my_dt}", "maybe") )
+        my_decision_list.append( (my_dt, "maybe") )
     else:
-        my_decision_list.append( (f"{my_dt}", "no") )
+        my_decision_list.append( (my_dt, "no") )
 
 print(my_decision_list)   
 
 my_good_for_outside_list = [ my_decision for my_decision in my_decision_list if my_decision[1] in ["yes", "ok", "maybe"]]
-
-result2_good_time_for_laundry = f"List of good time to put laundry outside is {my_good_for_outside_list}"
+good_times_for_laundry_str = [display_datetime(time) for (time, decision) in my_good_for_outside_list]
+result2_good_time_for_laundry = f"List of good time to put laundry outside is {good_times_for_laundry_str}"
 print(result2_good_time_for_laundry) # to check for me
 
 # another calculation to choose the best time
-good_times_for_laundry = [datetime.datetime.strptime(time_str,"%Y/%d/%b %H:%M") for (time_str, decision) in my_good_for_outside_list]
+good_times_for_laundry = [to_datetime(time) for (time, decision) in my_good_for_outside_list]
+# good_times_for_laundry = [datetime.datetime.strptime(time_str,"%Y/%d/%b %H:%M") for (time_str, decision) in my_good_for_outside_list]
 good_time_for_laundry_only_morning = [morning for morning in good_times_for_laundry if morning.hour < 12]
 print(good_time_for_laundry_only_morning)
 
+best_time_for_laundry = good_time_for_laundry_only_morning[0]
+print(my_all_data_dict)
+my_all_info_best_time_for_laundry = my_all_data_dict[best_time_for_laundry]
+print(my_all_info_best_time_for_laundry)
 
+final_results = f"I recomend the best time to put laundry outside is {best_time_for_laundry}: tempreture: {my_all_info_best_time_for_laundry[0]}°C / Humidity: {my_all_info_best_time_for_laundry[1]}% / Wind: {my_all_info_best_time_for_laundry[2]}mph. "
+print(final_results)
+
+with open ("final_results.txt", "w") as file:
+    file.write(f"{result1_current_weather}\n{result2_good_time_for_laundry}\n{final_results}")
 
 # for my_data in my_list:
 #     my_dt = display_datetime(my_data["dt"])   # to get time from 'list' key
@@ -225,14 +240,6 @@ print(good_time_for_laundry_only_morning)
 #     else:
 #         print("no")
 
-
-
-
-# final_results = f"I recomend the best time to put laundry outside is {best_time_sofar}: tempreture: {best_temp_sofar}°C / Humidity: {lowest_humidity_sofar}%"
-# print(final_results)
-
-# with open ("final_results.txt", "w") as file:
-#     file.write(f"{result1_current_weather}\n{result2_good_time_for_laundry}\n{final_results}")
 
 
 

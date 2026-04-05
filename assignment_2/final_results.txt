@@ -1,4 +1,4 @@
-Current weather in SW12 0JL is Clouds
-Temperature is 11°C and you feel like 10°C.
-[('05/Apr 19:00', 'maybe'), ('07/Apr 10:00', 'maybe'), ('07/Apr 13:00', 'ok'), ('07/Apr 16:00', 'ok'), ('07/Apr 19:00', 'maybe'), ('08/Apr 16:00', 'ok'), ('10/Apr 13:00', 'ok'), ('10/Apr 16:00', 'ok')]
-I recomend the best time to put laundry outside is None: tempreture: 0°C / Humidity: 100%
+Current weather in SW12 0JL is Clear
+Temperature is 9°C and you feel like 6°C.
+List of good time to put laundry outside is ['2026/Apr/07 10:00', '2026/Apr/07 13:00', '2026/Apr/07 16:00', '2026/Apr/07 19:00']
+I recomend the best time to put laundry outside is 2026-04-07 10:00:00: tempreture: 12.72°C / Humidity: 53% / Wind: 9mph. 
