@@ -10,7 +10,7 @@ import json
 import datetime
 import re
 import secret # to get openweather api key so no need to share here
-import pandas as pd # to read iso_country_code.csv
+import pandas as pd # to read iso_country_code.csv into a dataframe to extract country names and codes
 
 """
 APIs to use: 
