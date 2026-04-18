@@ -76,6 +76,7 @@ CREATE TABLE stocks (
 
 -- Populate the database with at least 8 rows of mock data per table.
 -- The data does not need to be real or accurate
+-- Use at least 3 queries to insert data
 
 -- Not including primary keys as it will be auto_cremated
 INSERT INTO cookbooks (
@@ -362,111 +363,175 @@ VALUES
 ;
 
 ALTER TABLE recipes AUTO_INCREMENT = 1;
-INSERT INTO stocks (ingredient_id, stock_quantity, unit_id) -- not adding is_available yet
+INSERT INTO stocks (ingredient_id, stock_quantity, unit_id, is_available)
 VALUES 
-	(1,5,7),
-	(2,30,8),
-	(3,200,1),
-	(4,5,5),
-	(5,10,6),
-	(6,1.5,6),
-	(7,2,6),
-	(8,500,3),
-	(9,10,7),
-	(10,1,10),
-	(11,10,7),
-	(12,3,7),
-	(13,1.5,5),
-	(14,1,5),
-	(15,4,7),
-	(16,2,5),
-	(17,1.5,5),
-	(18,250,1),
-	(19,4,6),
-	(20,3,6),
-	(21,300,1),
-	(22,75,1),
-	(23,500,3),
-	(24,30,1),
-	(25,200,1),
-	(26,15,7),
-	(27,80,1),
-	(28,100,1),
-	(29,2,6),
-	(30,12,7),
-	(31,4,7),
-	(32,2,5),
-	(33,2,7),
-	(34,4,7),
-	(35,1,5),
-	(36,200,1),
-	(37,1,11),
-	(38,50,1),
-	(39,200,3),
-	(40,80,1),
-	(41,6,7),
-	(42,4,7),
-	(43,500,1),
-	(44,1,2),
-	(45,250,1),
-	(46,6,7),
-	(47,2,5),
-	(48,1,5),
-	(49,200,1),
-	(50,300,1),
-	(51,1.5,5),
-	(52,2,6),
-	(53,300,3),
-	(54,150,1),
-	(55,40,1),
-	(56,3,7),
-	(57,2,7),
-	(58,6,7),
-	(59,3,7),
-	(60,2,6),
-	(61,3,6),
-	(62,2,5),
-	(63,2,2),
-	(64,800,3),
-	(65,3,6),
-	(66,2,10),
-	(67,100,1),
-	(68,30,1),
-	(69,30,1),
-	(70,30,1),
-	(71,2,7),
-	(72,1.5,5),
-	(73,1,5),
-	(74,1,5),
-	(75,30,1),
-	(76,250,1),
-	(77,3,7),
-	(78,2,7),
-	(79,3,7),
-	(80,1,3),
-	(81,12,7),
-	(82,200,3),
-	(83,80,3)
+	(1, 5, 7, 1),
+	(2, 30, 8, 1),
+	(3, 200, 1, 1),
+	(4, 5, 5, 1),
+	(5, 10, 6, 1),
+	(6, 1.5, 6, 1),
+	(7, 2, 6, 1),
+	(8, 500, 3, 1),
+	(9, 10, 7, 1),
+	(10, 1, 10, 1),
+	(11, 10, 7, 1),
+	(12, 3, 7, 1),
+	(13, 1.5, 5, 1),
+	(14, 1, 5, 1),
+	(15, 4, 7, 1),
+	(16, 2, 5, 1),
+	(17, 1.5, 5, 1),
+	(18, 250, 1, 1),
+	(19, 4, 6, 1),
+	(20, 3, 6, 1),
+	(21, 300, 1, 1),
+	(22, 75, 1, 1),
+	(23, 500, 3, 1),
+	(24, 30, 1, 1),
+	(25, 200, 1, 1),
+	(26, 15, 7, 1),
+	(27, 80, 1, 1),
+	(28, 100, 1, 1),
+	(29, 2, 6, 1),
+	(30, 12, 7, 1),
+	(31, 4, 7, 1),
+	(32, 2, 5, 1),
+	(33, 2, 7, 1),
+	(34, 4, 7, 1),
+	(35, 1, 5, 1),
+	(36, 200, 1, 1),
+	(37, 1, 11, 1),
+	(38, 50, 1, 1),
+	(39, 200, 3, 1),
+	(40, 80, 1, 1),
+	(41, 6, 7, 1),
+	(42, 4, 7, 1),
+	(43, 500, 1, 1),
+	(44, 1, 2, 1),
+	(45, 250, 1, 1),
+	(46, 6, 7, 1),
+	(47, 2, 5, 1),
+	(48, 1, 5, 1),
+	(49, 200, 1, 1),
+	(50, 300, 1, 1),
+	(51, 1.5, 5, 1),
+	(52, 2, 6, 1),
+	(53, 300, 3, 1),
+	(54, 150, 1, 1),
+	(55, 40, 1, 1),
+	(56, 3, 7, 1),
+	(57, 2, 7, 1),
+	(58, 6, 7, 1),
+	(59, 3, 7, 1),
+	(60, 2, 6, 1),
+	(61, 3, 6, 1),
+	(62, 2, 5, 1),
+	(63, 2, 2, 1),
+	(64, 800, 3, 1),
+	(65, 3, 6, 1),
+	(66, 2, 10, 1),
+	(67, 100, 1, 1),
+	(68, 30, 1, 1),
+	(69, 30, 1, 1),
+	(70, 30, 1, 1),
+	(71, 2, 7, 1),
+	(72, 1.5, 5, 1),
+	(73, 1, 5, 1),
+	(74, 1, 5, 1),
+	(75, 30, 1, 1),
+	(76, 250, 1, 1),
+	(77, 3, 7, 1),
+	(78, 2, 7, 1),
+	(79, 3, 7, 1),
+	(80, 1, 3, 1),
+	(81, 12, 7, 1),
+	(82, 200, 3, 1),
+	(83, 80, 3, 1)
 ;
 
+DELETE FROM stocks; -- to delete all the data in the table
 
+INSERT INTO ingredients (ingredient_name, ingredient_type_id)
+VALUES ('baked beans', 10);
 
--- Use at least 3 queries to insert data
+INSERT INTO ingredients (ingredient_name, ingredient_type_id)
+VALUES 
+	('worcestershire sauce', 10),
+	('bread',5);
 
--- Use at least 5 queries to retrieve data
+INSERT INTO recipes (recipe_name, ingredient_id, ingredient_quantity, unit_id, prep_time, cooking_time, cooking_date)
+VALUES 
+	('baked beans on toast',  
+		(
+		SELECT ingredient_id
+		FROM ingredients
+		WHERE ingredient_name = 'bread'
+		),
+		1,
+		(
+		SELECT unit_id
+		FROM units
+		WHERE unit_abbreviation = 'piece'
+		),
+		'00:01:00',
+		'00:03:00',
+		DATE(NOW())
+	),
+	('baked beans on toast',  
+		(
+		SELECT ingredient_id
+		FROM ingredients
+		WHERE ingredient_name = 'baked beans'
+		),
+		0.5,
+		(
+		SELECT unit_id
+		FROM units
+		WHERE unit_abbreviation = 'tin'
+		),
+		'00:01:00',
+		'00:03:00',
+		DATE(NOW())
+	),	
+	('baked beans on toast',
+		(
+		SELECT ingredient_id
+		FROM ingredients
+		WHERE ingredient_name = 'worcestershire sauce'
+		),
+		0.5,
+		(
+		SELECT unit_id
+		FROM units
+		WHERE unit_abbreviation = 'tsp'
+		),
+		'00:01:00',
+		'00:03:00',
+		DATE(NOW())
+	);
 
--- Use at least 1 query to delete data
-
--- Use at least 2 aggregate functions
-
--- Use at least 2 joins
-
--- Use at least 2 additional in-built functions 
--- (to the two aggregate functions already counted in previous point)
-
--- Use data sorting for majority of queries with ORDER BY
-
--- Create and use one stored procedure or function to achieve a goal
-
-
--- Provide a creative scenario of use
+INSERT INTO stocks (ingredient_id, stock_quantity, unit_id, is_available)
+VALUES 
+	(
+		(	
+		SELECT ingredient_id
+		FROM ingredients 
+		WHERE ingredient_name = 'bread'
+		),
+		0,
+		(
+		SELECT unit_id 
+		FROM units 
+		WHERE unit_abbreviation = 'piece'
+		),
+		0
+	)
+	
+	UPDATE stocks 
+	SET is_available = 1
+	WHERE ingredient_id =
+		(SELECT ingredient_id
+		FROM ingredients 
+		WHERE ingredient_name = 'bread')
+	;
