@@ -8,5 +8,5 @@
 
 - [Assignment 2](assignment_2) - Python assignment
 
-- [Assignment 3](Assignment_3) - SQL assignment
+- [Assignment 3](assignment_3) - SQL assignment
 
