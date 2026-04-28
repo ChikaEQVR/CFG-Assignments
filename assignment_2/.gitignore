@@ -1,0 +1,7 @@
+venv/*
+test.py
+example.json
+secret.py
+.vscode/*
+__pycache__/*
+test2.py
