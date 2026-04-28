@@ -6,7 +6,7 @@
 
 - [Assignment 1](assignment_1) - Git and GitHub assignment
 
-- Assignment 2 - Python assignment
+- [Assignment 2](assignment_2) - Python assignment
 
-- Assignment 3 - SQL assignment
+- [Assignment 3](Assignment_3) - SQL assignment
 
