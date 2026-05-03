@@ -3,6 +3,7 @@ from config import get_db_connection
 
 # Have db_utils file and use exception handling
 
+# To get information
 # create a reusable function to excecute query with a parameter to get data from tables
 def execute_query(query, params = None):
      with get_db_connection() as connection:
@@ -15,21 +16,6 @@ def execute_query(query, params = None):
 def get_all_users():
     users = execute_query("SELECT * FROM users")
     return users
-
-
-# Create a function to insert a new user
-# def insert_user(user_name):
-#     with get_db_connection() as connection:
-#         with connection.cursor(dictionary=True) as cursor:
-#             # insert a new user
-#             cursor.execute("""
-#                         INSERT INTO users (user_name)
-#                         VALUES (%s)
-#                         """,
-#                         (user_name,)
-#                         )
-#             #save in database
-#             connection.commit()
 
 # Create a function to get user_id
 def get_user_id(hf_user_name):
@@ -72,39 +58,67 @@ def get_account(hf_account_id=None, hf_search_term=None, hf_user_id=None, hf_cre
     account = execute_query(query, tuple(params))
     return account
 
-# def get_account(hf_account_id=None, hf_search_term=None, hf_user_id=None, hf_created_at=None):
-#     with get_db_connection() as connection:
-#         with connection.cursor(dictionary=True) as cursor:
+# Create a function to get all transactions
+def get_all_transactions():
+    transactions = execute_query("SELECT * FROM transactions")
+    return transactions
 
-#             query = "SELECT * FROM accounts WHERE 1=1"
-#             params = []
+# Create a function to get transaction by account_id or transaction_type_id
+def get_transactions_by_params(hf_account_id = None, hf_transaction_type_id = None):
+    query = "SELECT * FROM transactions WHERE 1=1"
+    params = []
 
-#             if hf_account_id:
-#                 query += " AND account_id = %s"
-#                 params.append(hf_account_id)
+    if hf_account_id:
+        query += " AND account_id = %s"
+        params.append(hf_account_id)
 
-#             if hf_search_term: # users to be able to use a part of the name for the search use comparison operator, LIKE 
-#                 query += " AND account_name LIKE %s"
-#                 like_term = f"%{hf_search_term}%" # like term: %{search_term}% comes afer LIKE and return account name contains search_term
-#                 params.append(like_term) 
+    elif hf_transaction_type_id:
+        query += " AND transaction_type_id = %s"
+        params.append(hf_transaction_type_id)
+    
+    transactions = execute_query(query, tuple(params))
+    return transactions
 
-#             if hf_user_id:
-#                 query += " AND user_id = %s"
-#                 params.append(hf_user_id)
+# To insert data
+# create a reusable function to excecute query with a parameter to insert data to tables
+def execute_insert_query(query, params = None):
+    with get_db_connection() as connection:
+        with connection.cursor(dictionary=True) as cursor:
+            cursor.execute(query, params)
+            connection.commit()
 
-#             if hf_created_at: # ##### TODO need to put if date format is not correnct ie not YYYY-MM-DD
-#                 query += " AND created_at = %s"
-#                 params.append(hf_created_at)
+# Create a function to insert a new user
+def insert_user(new_user_name):
+    execute_insert_query("""
+                        INSERT INTO users (user_name)
+                        VALUES (%s)
+                        """,
+                        (new_user_name,)
+                        )
 
-#             cursor.execute(query, tuple(params))
-#             return cursor.fetchall()
-
-# TODO get all transactions
-
-
-# TODO get/search transactions by prameters
-
-# TODO add transactions
+# Create a function to insert a new account for a new user
+def insert_user(new_user_name):
+    execute_insert_query("""
+                        INSERT INTO users (user_name)
+                        VALUES (%s)
+                        """,
+                        (new_user_name,)
+                        )    
+# Create a function to egt the id of the last row
+def new_user_id():
+    with get_db_connection() as connection:
+        with connection.cursor(dictionary=True) as cursor:
+            last_user_id = cursor.lastrowid
+            return last_user_id
+        
+# Create a function to insert a new transaction
+# TODO check if the account id is valid
+def insert_transaction(new_account_id, new_amount, new_transaction_type, new_description, new_transaction_date):
+    with get_db_connection() as connection:
+        with connection.cursor(dictionary=True) as cursor:
+            args = (new_account_id, new_amount, new_transaction_type, new_description, new_transaction_date)
+            cursor.callproc('InsertTransactionValues', args)
+            connection.commit()
 
 # TODO get transactions and calculate balance
 
@@ -112,12 +126,14 @@ def get_account(hf_account_id=None, hf_search_term=None, hf_user_id=None, hf_cre
 
 if __name__ == "__main__":
     print(get_all_users())    
-    # insert_user('chika')
     # print(get_all_users())
     print(get_user_id('isla'))
     print(get_all_accounts())
-    print(get_account(3))
-
+    print(get_account(hf_user_id = 3))
+    print(get_all_transactions())
+    print(get_transactions_by_params(hf_transaction_type_id = 4))
+    insert_user('paul')
+    insert_transaction(4, 5.00, 'reward', 'for helping chores', '2026-05-03')
 
 
     
