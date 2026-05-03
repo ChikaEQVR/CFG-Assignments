@@ -1,6 +1,6 @@
 # Have correct but minimal imports per file (do not import things you do not use in the file)
 from flask import Flask, request, jsonify
-from db_utils import get_all_users, insert_user, get_all_accounts, search_accounts # TODO add more functions after created
+from db_utils import get_all_users, insert_user, get_all_accounts, get_account # TODO add more functions after created
 
 app = Flask(__name__)
 
@@ -35,7 +35,7 @@ def accounts():
 # get request to search accounts information with id as an unique identifier
 @app.route('/account/<int:user_id>', methods = ['GET'])
 def get_account_by_user_id(user_id):
-    get_account_by_user_id = search_accounts(hf_user_id=user_id)
+    get_account_by_user_id = get_account(hf_user_id=user_id)
     return jsonify(get_account_by_user_id)
 
 
