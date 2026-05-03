@@ -2,6 +2,7 @@
 from config import get_db_connection
 
 # Have db_utils file and use exception handling
+# ### TODO add exception handling
 
 # To get information
 # create a reusable function to excecute query with a parameter to get data from tables
@@ -79,6 +80,18 @@ def get_transactions_by_params(p_account_id = None, p_transaction_type_id = None
     transactions = execute_query(query, tuple(params))
     return transactions
 
+# Create a function to calculate balance of each account 
+def get_account_balance():
+    balance = execute_query("""
+                            SELECT 
+                            account_id,
+                            SUM(amount) AS balance
+                            FROM transactions
+                            GROUP BY account_id
+                            """)
+    return balance
+
+
 # To insert data
 # create a reusable function to excecute query with a parameter to insert data to tables
 def execute_insert_query(query, params = None):
@@ -87,6 +100,7 @@ def execute_insert_query(query, params = None):
             cursor.execute(query, params)
             connection.commit()
 
+# Not sure if you need this
 # Create a function to get the id of the last row
 with get_db_connection() as connection:
     with connection.cursor(dictionary=True) as cursor:
@@ -132,8 +146,6 @@ def delete_account(p_account_id, p_user_id):
                         )
             connection.commit()
 
-# TODO get transactions and calculate balance
-
 
 
 if __name__ == "__main__":
@@ -141,12 +153,13 @@ if __name__ == "__main__":
     # print(get_user_id('isla'))
     # print(get_all_accounts())
     # print(get_account(hf_user_id = 3))
-    print(get_all_transactions())
+    # print(get_all_transactions())
     # print(get_transactions_by_params(hf_transaction_type_id = 4))
     # insert_user('chika3')
     # insert_transaction(4, 5.00, 'reward', 'for helping chores', '2026-05-03')
     # insert_account ('chika account', 5, '2026-05-02')
     # delete_account(6, 5)
+    print(get_account_balance())
     
 
 

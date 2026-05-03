@@ -1,7 +1,5 @@
 ### Assignment 4 ###
 
-#### Pocket Money Manager AIP ####
-
 I created Pocket Money Manager AIP to manage my children't pocket money and analyse the transactions
 
 ##### To set up DB:
@@ -23,8 +21,32 @@ Please pip install the follwoing packages:
 - requests
 
 ##### How the files are connecting:
-- `config.py`: the file importing credentials from `.env` using 3 modules, mysql.connector, os, dotenv
-- `db_utils.py`: 
+- `config.py`: 
+It is importing credentials from `.env` using 2 modules: **os**, **dotenv**
+It is also connecting to the database and opening cursor using **mysql.connector** module
+
+- `db_utils.py`:
+It is importing `config.py` to connect to the datanase and opening cursor
+This file is used to interact mysql creating helper functions to use in `app.py`
+
+- `app.py`:
+It is importing **Flask** to run flask app, **request** to request json format to get, **jsonify** to converts the Python dictionary into JSON response from **flask** module
+In this file, API endpoints are created using Flask app.
+To run flask app, please type **flask run** or type **flask --app app run**
+
+- `main.py`:
+It is importing **requests** to call the API created from client side.
+
+#### Pocket Money Manager AIP ####
+###### How to make an API call ######
+
+API call
+
+http://127.0.0.1:5000/balance
+
+###### Fields in API response ######
+account_id: account id, int
+balance: balance of each account, decimal 
 
 
 

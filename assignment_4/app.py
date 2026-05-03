@@ -1,6 +1,6 @@
 # Have correct but minimal imports per file (do not import things you do not use in the file)
 from flask import Flask, request, jsonify
-from db_utils import get_all_users, get_all_accounts, get_all_transactions, get_account, get_transactions_by_params, insert_user, insert_account, insert_transaction, delete_account
+from db_utils import get_all_users, get_all_accounts, get_all_transactions, get_account, get_transactions_by_params, get_account_balance, insert_user, insert_account, insert_transaction, delete_account
 
 app = Flask(__name__)
 
@@ -43,6 +43,11 @@ def get_transactions_by_account_id(account_id):
     transactions_by_account_id = get_transactions_by_params(p_account_id = account_id)
     return jsonify(transactions_by_account_id)
 
+# get request to get balance of each account
+@app.route('/balance', methods = ['GET'])
+def balance():
+    account_balance = get_account_balance()
+    return jsonify(account_balance)
 
 # Implement one additional endpoint of your choice (can be POST or
 # GET but with a different implementation)
@@ -55,7 +60,7 @@ def is_user_exist(name):
             return True
     return False
     
-# add a new user # Not allowing the duplication here as usually children's names are different in a family.
+# add a new user if not exist # Not allowing the duplication here as usually children's names are different in a family.
 @app.route('/users', methods = ['POST'])
 def add_user():
     data = request.get_json()

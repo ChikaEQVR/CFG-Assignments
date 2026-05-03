@@ -43,15 +43,46 @@ else:
 
 
 # get request to get a transaction inforamtion with account_id as an unique identifier
+account_id = 4
+response = requests.get(f"http://127.0.0.1:5000/transactions/{account_id}")
+if response.status_code == 200:
+    transactions_by_account_id = response.json()
+    for transaction in transactions_by_account_id:
+        print(transaction)
+else:
+    print(f"Failed to retrieve users. Status code: {response.status_code}")
 
-
-
+# get request to get balance of each account
+response = requests.get("http://127.0.0.1:5000/balance")
+if response.status_code == 200:
+    balance = response.json()
+    for b in balance:
+        print(b)
+else:
+    print(f"Failed to retrieve users. Status code: {response.status_code}")
 
 # add a new user
+new_user = {"user_name" : "paul2"}
+response = requests.post("http://127.0.0.1:5000/users", json=new_user)
+if response.status_code == 201:
+    print("New user added successfully.")
+else:
+    print(f"Failed to add users. Status code: {response.status_code}")
 
 # add a new transaction
+new_transaction = {
+    "account_id" : 5,
+    "amount": 4.00,
+    "transaction_type" : "allowance",
+    "description" : "weekly allowance",
+    "transaction_date" : "2026-05-03"
+}
+response = requests.post("http://127.0.0.1:5000/transactions", json=new_transaction)
+if response.status_code == 201:
+    print("New transaction added succesfully.")
+else:
+    print(f"Failed to add transaction. Status code: {response.status_code}")
 
-# delete an account
 
 # In main.py have a run() function/call the functions to simulate the
 # planned interaction with the API, this could include welcome
