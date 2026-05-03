@@ -18,12 +18,12 @@ def get_all_users():
     return users
 
 # Create a function to get user_id
-def get_user_id(hf_user_name):
+def get_user_id(p_user_name):
     user_id = execute_query("""
                             SELECT user_id FROM users
                             WHERE user_name = %s
                             """,
-                            (hf_user_name,)
+                            (p_user_name,)
                             )
     return user_id
 
@@ -34,26 +34,26 @@ def get_all_accounts():
 
 # Create a function which allows a user to get account information from one parameter 
 # to search accounts using either by account_id, a serach term by account_name, by user_id or by created_at
-def get_account(hf_account_id=None, hf_search_term=None, hf_user_id=None, hf_created_at=None):
+def get_account(p_account_id=None, p_search_term=None, p_user_id=None, p_created_at=None):
     query = "SELECT * FROM accounts WHERE 1=1"
     params = []
 
-    if hf_account_id:
+    if p_account_id:
         query += " AND account_id = %s"
-        params.append(hf_account_id)
+        params.append(p_account_id)
 
-    if hf_search_term: # users to be able to use a part of the name for the search use comparison operator, LIKE 
+    if p_search_term: # users to be able to use a part of the name for the search use comparison operator, LIKE 
         query += " AND account_name LIKE %s"
-        like_term = f"%{hf_search_term}%" # like term: %{search_term}% comes afer LIKE and return account name contains search_term
+        like_term = f"%{p_search_term}%" # like term: %{search_term}% comes afer LIKE and return account name contains search_term
         params.append(like_term) 
 
-    if hf_user_id:
+    if p_user_id:
         query += " AND user_id = %s"
-        params.append(hf_user_id)
+        params.append(p_user_id)
 
-    if hf_created_at: # ##### TODO need to put if date format is not correnct ie not YYYY-MM-DD
+    if p_created_at: # ##### TODO need to put if date format is not correnct ie not YYYY-MM-DD
         query += " AND created_at = %s"
-        params.append(hf_created_at)
+        params.append(p_created_at)
 
     account = execute_query(query, tuple(params))
     return account
@@ -64,17 +64,17 @@ def get_all_transactions():
     return transactions
 
 # Create a function to get transaction by account_id or transaction_type_id
-def get_transactions_by_params(hf_account_id = None, hf_transaction_type_id = None):
+def get_transactions_by_params(p_account_id = None, p_transaction_type_id = None):
     query = "SELECT * FROM transactions WHERE 1=1"
     params = []
 
-    if hf_account_id:
+    if p_account_id:
         query += " AND account_id = %s"
-        params.append(hf_account_id)
+        params.append(p_account_id)
 
-    elif hf_transaction_type_id:
+    elif p_transaction_type_id:
         query += " AND transaction_type_id = %s"
-        params.append(hf_transaction_type_id)
+        params.append(p_transaction_type_id)
     
     transactions = execute_query(query, tuple(params))
     return transactions
@@ -87,37 +87,49 @@ def execute_insert_query(query, params = None):
             cursor.execute(query, params)
             connection.commit()
 
+# Create a function to get the id of the last row
+with get_db_connection() as connection:
+    with connection.cursor(dictionary=True) as cursor:
+        my_last_id = cursor.lastrowid
+        
 # Create a function to insert a new user
-def insert_user(new_user_name):
+def insert_user(p_user_name):
     execute_insert_query("""
                         INSERT INTO users (user_name)
                         VALUES (%s)
                         """,
-                        (new_user_name,)
+                        (p_user_name,)
                         )
 
+# TODO check how to use cursor.lastrowid
 # Create a function to insert a new account for a new user
-def insert_user(new_user_name):
+def insert_account(p_account_name, p_user_id, p_created_at):
     execute_insert_query("""
-                        INSERT INTO users (user_name)
-                        VALUES (%s)
+                        INSERT INTO accounts (account_name, user_id, created_at)
+                        VALUES (%s, %s, %s)
                         """,
-                        (new_user_name,)
+                        (p_account_name, p_user_id, p_created_at)
                         )    
-# Create a function to egt the id of the last row
-def new_user_id():
-    with get_db_connection() as connection:
-        with connection.cursor(dictionary=True) as cursor:
-            last_user_id = cursor.lastrowid
-            return last_user_id
         
 # Create a function to insert a new transaction
 # TODO check if the account id is valid
-def insert_transaction(new_account_id, new_amount, new_transaction_type, new_description, new_transaction_date):
+def insert_transaction(account_id, amount, transaction_type, description, transaction_date):
     with get_db_connection() as connection:
         with connection.cursor(dictionary=True) as cursor:
-            args = (new_account_id, new_amount, new_transaction_type, new_description, new_transaction_date)
+            args = (account_id, amount, transaction_type, description, transaction_date)
             cursor.callproc('InsertTransactionValues', args)
+            connection.commit()
+
+# Create a function to delete an account with account_id and user_id
+def delete_account(p_account_id, p_user_id):
+    with get_db_connection() as connection:
+        with connection.cursor(dictionary=True) as cursor:
+            cursor.execute("""
+                          DELETE FROM accounts
+                          WHERE account_id = %s AND user_id = %s
+                          """,
+                          (p_account_id, p_user_id)
+                        )
             connection.commit()
 
 # TODO get transactions and calculate balance
@@ -125,17 +137,16 @@ def insert_transaction(new_account_id, new_amount, new_transaction_type, new_des
 
 
 if __name__ == "__main__":
-    print(get_all_users())    
-    # print(get_all_users())
-    print(get_user_id('isla'))
-    print(get_all_accounts())
-    print(get_account(hf_user_id = 3))
+    # print(get_all_users())    
+    # print(get_user_id('isla'))
+    # print(get_all_accounts())
+    # print(get_account(hf_user_id = 3))
     print(get_all_transactions())
-    print(get_transactions_by_params(hf_transaction_type_id = 4))
-    insert_user('paul')
-    insert_transaction(4, 5.00, 'reward', 'for helping chores', '2026-05-03')
-
-
+    # print(get_transactions_by_params(hf_transaction_type_id = 4))
+    # insert_user('chika3')
+    # insert_transaction(4, 5.00, 'reward', 'for helping chores', '2026-05-03')
+    # insert_account ('chika account', 5, '2026-05-02')
+    # delete_account(6, 5)
     
 
 
