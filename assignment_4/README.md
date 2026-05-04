@@ -25,12 +25,13 @@ Please pip install the following packages:
 This file is used to connect with MySQL database with credential from `.env`
   
 - `db_utils.py`:  
-This file is used to interact mysql creating helper functions to use in `app.py`.
+This file is used to interact with MySQL creating helper functions to use in `app.py`.
+I have created more functions than I used in `app.py` for the future use.
 
 - `app.py`:  
 In this file, API endpoints are created using Flask app.    
 To run flask app, please type **flask run** or type **flask --app app run**.
-Functions from `db_utils.py` are importd to use in the file.  
+Functions in `db_utils.py` are importd to use in the file.  
 
 - `main.py`:  
 To run `main.py`, please run flask app in `app.py` first then run the run() function.
