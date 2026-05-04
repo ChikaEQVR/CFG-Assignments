@@ -85,7 +85,7 @@ The responses will retun in JSON format.
 `description`: text  
 `transaction_date`: Date  
 `transacion_id`: int  
-`transaction_type`: int  
+`transaction_type_id`: int  
 
 
 - API call to retrieve balance for each account: http://127.0.0.1:5000/balance
