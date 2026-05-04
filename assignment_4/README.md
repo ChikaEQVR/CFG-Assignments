@@ -30,7 +30,7 @@ I have created more functions than I used in `app.py` for the future use.
 
 - `app.py`:  
 In this file, API endpoints are created using Flask app.    
-To run flask app, please type **flask run** or type **flask --app app run**.  
+To run flask app, please type **flask run** or type **flask --app app run** in Terminal.  
 Functions in `db_utils.py` are importd to use in the file.  
 
 - `main.py`:  
