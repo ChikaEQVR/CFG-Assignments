@@ -1,76 +1,47 @@
 ### Assignment 4 ###  
 
-I created Pocket Money Manager AIP to manage my children't pocket money and analyse the transactions.  
+I created a Pocket Money Manager API to manage my children's pocket money and analyse the transactions.  
 
 #### To set up DB:  
 1. Please use 'pocketmoney_db.sql' to create the database and insert some data into tables.  
 
 #### To secure credentials:
 1. Please create `.env` file for your credentials:  
-Write your credentials in " ". Do not have any space.  
+Write your credentials in " ". Do not have any spaces.  
 > DB_HOST=""  
 > DB_USER=""  
 > DB_PASSWORD=""  
 > DB_NAME="pocketmoney_db"  
 
 #### Packages to pip install to run all the files:  
-Please pip install the follwoing packages:  
+Please pip install the following packages:  
 - mysql-connector-python  
 - python-dotenv  
 - flask  
 - requests  
 
-#### How the files are connecting:  
-- `config.py`:   
-Require to import:    
-**os** to set path.  
-**dotenv** to load `.env` for credentials.          
-**mysql.connector** to connect to the database and open cursor.    
-
+#### Files to run:  
+- `config.py`:  
+This file is used to connect with MySQL database with credential from `.env`
+  
 - `db_utils.py`:  
-Require to import:   
-from    
-**config** to import `config.py` 
-import  
-**get_db_connection** to connect to the datanase and opening cursor. 
-
-This file is used to interact mysql creating helper functions to use in `app.py`.    
+This file is used to interact mysql creating helper functions to use in `app.py`.
 
 - `app.py`:  
-Require to import:  
-from  
-**flask**  
-import  
-**Flask** to run flask app  
-**request** to request json format to get      
-**jsonify** to converts the Python dictionary into JSON response from flask module.  
-To use functions in `db_utils.py`  
-from  
-**db_utils**
-import  
-**get_all_users**  
-**get_all_accounts**  
-**get_all_transactions**  
-**get_account**  
-**get_transactions_by_params**  
-**get_account_balance**  
-**insert_user**  
-**insert_account**  
-**insert_transaction**  
-
 In this file, API endpoints are created using Flask app.    
-To run flask app, please type **flask run** or type **flask --app app run**.    
+To run flask app, please type **flask run** or type **flask --app app run**.
+Functions from `db_utils.py` are importd to use in the file.  
 
 - `main.py`:  
-Require to import:    
-**requests** to call the API created from client side.  
-
-To run `main.py`, please run flask app in `app.py` first then run the run() function.    
+To run `main.py`, please run flask app in `app.py` first then run the run() function.
+This file is the client side to call APIs which created in app.py.   
 
 #### Pocket Money Manager AIP ####  
 The responses will retun in JSON format.  
 
 #### API examples ####  
+
+#### GET ####  
 
 - API call to retrieve all users: http://127.0.0.1:5000/users  
 
@@ -123,7 +94,7 @@ The responses will retun in JSON format.
 `account_id`: int  
 `balance`: decimal  
 
-
+#### POST ####
 - To add a new user : http://127.0.0.1:5000/users  
 ```
   new_user = {"user_name" : "#input new user name here"}  
