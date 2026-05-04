@@ -8,10 +8,10 @@ I created Pocket Money Manager AIP to manage my children't pocket money and anal
 ##### To secure credentials:
 1. Please create `.env` file for your credentials:
 Write your credentials in " ". Do not have any space.
-> DB_HOST=""
-> DB_USER=""
-> DB_PASSWORD=""
-> DB_NAME="pocketmoney_db"
+> DB_HOST=""  
+> DB_USER=""  
+> DB_PASSWORD=""  
+> DB_NAME="pocketmoney_db"  
 
 ##### Packages to pip install to run all the files:
 Please pip install the follwoing packages:
