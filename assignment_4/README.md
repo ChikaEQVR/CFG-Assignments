@@ -3,7 +3,7 @@
 I created a Pocket Money Manager API to manage my children's pocket money and analyse the transactions.  
 
 #### To set up DB:  
-1. Please use 'pocketmoney_db.sql' to create the database and insert some data into tables.  
+1. Please use 'pocketmoney_db.sql' to create the database, create some tables and insert some data into the tables.  
 
 #### To secure credentials:
 1. Please create `.env` file for your credentials:  
