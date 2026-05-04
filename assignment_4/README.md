@@ -22,7 +22,7 @@ Please pip install the following packages:
 
 #### Files to run:  
 - `config.py`:  
-This file is used to connect with MySQL database with credential from `.env`
+This file is used to connect with MySQL database with credentials from `.env`  
   
 - `db_utils.py`:  
 This file is used to interact with MySQL creating helper functions to use in `app.py`.  
@@ -30,12 +30,12 @@ I have created more functions than I used in `app.py` for the future use.
 
 - `app.py`:  
 In this file, API endpoints are created using Flask app.    
-To run flask app, please type **flask run** or type **flask --app app run**.
+To run flask app, please type **flask run** or type **flask --app app run**.  
 Functions in `db_utils.py` are importd to use in the file.  
 
 - `main.py`:  
-To run `main.py`, please run flask app in `app.py` first then run the run() function.
-This file is the client side to call APIs which created in app.py.   
+To run `main.py`, please run flask app in `app.py` first.    
+This file is the client side to call APIs which are created in `app.py`.    
 
 #### Pocket Money Manager AIP ####  
 The responses will retun in JSON format.  
@@ -127,20 +127,20 @@ New account added successfully.
 - To add a new transaction: http://127.0.0.1:5000/transactions
 ```
   new_transaction = {  
-      "account_id" : #input account_id here,  
-      "amount": #input amount with decimal here*,  
-      "transaction_type" : "#input transaction_type here",  
-      "description" : "#input description here*",  
-      "transaction_date" : "#input transaction date here" }  
+      "account_id" : # input account_id here,  
+      "amount": # input amount with decimal here,  
+      "transaction_type" : "# input transaction_type here",  
+      "description" : "# input description here",  
+      "transaction_date" : "# input transaction date here" }  
   response = requests.post("http://127.0.0.1:5000/transactions", json=new_transaction)  
 ```
-transaction_type to input: explanation for what is for:  
-- allowance: for pocket moeny  
-- spend: for all expense spent. Amount should be input with ***negative number***  
-- reward: for any help  outside routine  
-- gift: for any money given other than pocketmoney  
-- fine: for any deduction, the parents decided. Amount should be input with ***negative number***  
-- refund: for moeny the parents borrowed temporary.  
+**Transaction_type** to input: Explanation for what is for   
+- **allowance**: for pocket moeny  
+- **spend**: for all expense spent. Amount should be input with ***negative number***  
+- **reward**: for any help  outside routine  
+- **gift**: for any money given other than pocketmoney  
+- **fine**: for any deduction, the parents decided. Amount should be input with ***negative number***  
+- **refund**: for moeny the parents borrowed temporary.  
 
 If account added succesfully:   
 New transaction added succesfully.  
