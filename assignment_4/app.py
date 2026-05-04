@@ -16,46 +16,95 @@ def home():
 # get request to get all users
 @app.route('/users', methods = ['GET'])
 def users():
-    all_users = get_all_users()
+    try:
+        all_users = get_all_users()
 
-    if all_users is not None:
-        # this is workiong
-        return jsonify(all_users)
+        if all_users is not None:
+            # this is workiong
+            return jsonify(all_users)
 
-    if all_users is None:
-        # but if its not working, what do you return here?
-        return "something we thorribfly wrongf with get all users ...."
-
+        elif all_users is None:
+            # but if its not working, what do you return here?
+            return "something went wrong and could not retrieve data"
+        
+    except Exception as e:
+        return f"something went wrong {e}"
 
 # get request to get all the accounts
 @app.route('/accounts', methods = ['GET'])
 def accounts():
-    all_accounts = get_all_accounts()
-    return jsonify(all_accounts)
+    try:
+        all_accounts = get_all_accounts()
 
+        if all_accounts is not None:
+            return jsonify(all_accounts)
+        
+        elif all_accounts is None:
+            return "something went wrong and could not retrieve data"
+        
+    except Exception as e:
+        return f"something went wrong {e}"
+    
 # get request to get an account information with id as an unique identifier
 @app.route('/accounts/<int:user_id>', methods = ['GET'])
 def get_account_by_user_id(user_id):
-    account_by_user_id = get_account(p_user_id = user_id)
-    return jsonify(account_by_user_id)
+    try:
+        account_by_user_id = get_account(p_user_id = user_id)
+
+        if account_by_user_id is not None:
+            return jsonify(account_by_user_id)
+        
+        elif account_by_user_id is None:
+            return "something went wrong and could not retrieve data"
+        
+    except Exception as e:
+        return f"something went wrong {e}"
+    
 
 # get request to get all the transactions
 @app.route('/transactions', methods = ['GET'])
 def transactions():
-    all_transactions =  get_all_transactions()
-    return jsonify(all_transactions)
+    try:
+        all_transactions =  get_all_transactions()
+
+        if all_transactions is not None:
+            return jsonify(all_transactions)
+        
+        elif all_transactions is None:
+            return "something went wrong and could not retrieve data"
+    
+    except Exception as e:
+        return f"something went wrong {e}"
 
 # get request to get a transaction inforamtion with account_id as an unique identifier
 @app.route('/transactions/<int:account_id>', methods = ['GET'])
 def get_transactions_by_account_id(account_id):
-    transactions_by_account_id = get_transactions_by_params(p_account_id = account_id)
-    return jsonify(transactions_by_account_id)
+    try:
+        transactions_by_account_id = get_transactions_by_params(p_account_id = account_id)
+
+        if transactions_by_account_id is not None:
+            return jsonify(transactions_by_account_id)
+        
+        elif transactions_by_account_id is None:
+            return "something went wrong and could not retrieve data"
+    
+    except Exception as e:
+        return f"something went wrong {e}"    
 
 # get request to get balance of each account
 @app.route('/balance', methods = ['GET'])
 def balance():
-    account_balance = get_account_balance()
-    return jsonify(account_balance)
+    try:
+        account_balance = get_account_balance()
+
+        if account_balance is not None:
+            return jsonify(account_balance)
+        
+        elif account_balance is None:
+            return "something went wrong and could not retrieve data"
+        
+    except Exception as e:
+        return f"something went wrong {e}"
 
 # Implement one additional endpoint of your choice (can be POST or
 # GET but with a different implementation)
@@ -71,40 +120,50 @@ def is_user_exist(name):
 # add a new user if not exist # Not allowing the duplication here as usually children's names are different in a family.
 @app.route('/users', methods = ['POST'])
 def add_user():
-    data = request.get_json()
-    name = data['user_name']
-    if is_user_exist(name):
-        return "User already exists."
-    else: 
-        insert_user(name)
-        return jsonify({"message": "New user added succesfully"}), 201
+    try:
+        data = request.get_json()
+        name = data['user_name']
+        if is_user_exist(name):
+            return "User already exists."
+        else: 
+            insert_user(name)
+            return jsonify({"message": "New user added succesfully"}), 201
+    
+    except Exception as e:
+        return f"something went wrong {e}"
 
 # add a new account
 @app.route('/accounts', methods = ['POST'])
 def add_account():
-    data = request.get_json()
-    insert_account(
-        p_account_name = data.get('account_name'),
-        p_user_id = data.get('user_id'),
-        p_created_at = data.get('created_at')
-    )
-    return jsonify({"message": "New account added succesfully"}), 201
+    try:
+        data = request.get_json()
+        insert_account(
+            p_account_name = data.get('account_name'),
+            p_user_id = data.get('user_id'),
+            p_created_at = data.get('created_at')
+        )
+        return jsonify({"message": "New account added succesfully"}), 201
+    
+    except Exception as e:
+        return f"something went wrong {e}"
 
 # add a new transaction
 @app.route('/transactions', methods = ['POST'])
 def add_transaction():
-    data = request.get_json()
-    insert_transaction(
-        account_id = data.get('account_id'),
-        amount = data.get('amount'),
-        transaction_type = data.get('transaction_type'),
-        description = data.get('description'),
-        transaction_date = data.get('transaction_date')
-    )
-    return jsonify({"message": "Transaction added succesfully"}), 201
+    try:
+        data = request.get_json()
+        insert_transaction(
+            account_id = data.get('account_id'),
+            amount = data.get('amount'),
+            transaction_type = data.get('transaction_type'),
+            description = data.get('description'),
+            transaction_date = data.get('transaction_date')
+        )
+        return jsonify({"message": "Transaction added succesfully"}), 201
+    
+    except Exception as e:
+        return f"something went wrong {e}"
 
 if __name__ == '__main__':
     app.run(debug=True)
-
-    # call 127.0.0.1:5000/users
 
