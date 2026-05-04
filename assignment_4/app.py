@@ -17,7 +17,15 @@ def home():
 @app.route('/users', methods = ['GET'])
 def users():
     all_users = get_all_users()
-    return jsonify(all_users)
+
+    if all_users is not None:
+        # this is workiong
+        return jsonify(all_users)
+
+    if all_users is None:
+        # but if its not working, what do you return here?
+        return "something we thorribfly wrongf with get all users ...."
+
 
 # get request to get all the accounts
 @app.route('/accounts', methods = ['GET'])
@@ -97,4 +105,6 @@ def add_transaction():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+    # call 127.0.0.1:5000/users
 

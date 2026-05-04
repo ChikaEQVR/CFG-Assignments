@@ -2,16 +2,20 @@
 from config import get_db_connection
 
 # Have db_utils file and use exception handling
-# ### TODO add exception handling
 
 # To get information
 # create a reusable function to excecute query with a parameter to get data from tables
 def execute_query(query, params = None):
-     with get_db_connection() as connection:
-        with connection.cursor(dictionary=True) as cursor:
-            cursor.execute(query, params)
-            results = cursor.fetchall()
-            return results
+    try:
+        with get_db_connection() as connection:
+            with connection.cursor(dictionary=True) as cursor:
+                cursor.execute(query, params)
+                results = cursor.fetchall()
+                return results
+            
+    except connection.Error as err:
+        print(f"Something went wrong: {err}")
+        return None
 
 # Create a function to get all users
 def get_all_users():
@@ -93,59 +97,89 @@ def get_account_balance():
 
 
 # To insert data
-# create a reusable function to excecute query with a parameter to insert data to tables
-def execute_insert_query(query, params = None):
-    with get_db_connection() as connection:
-        with connection.cursor(dictionary=True) as cursor:
-            cursor.execute(query, params)
-            connection.commit()
-
-# Not sure if you need this
-# Create a function to get the id of the last row
-with get_db_connection() as connection:
-    with connection.cursor(dictionary=True) as cursor:
-        my_last_id = cursor.lastrowid
-        
 # Create a function to insert a new user
 def insert_user(p_user_name):
-    execute_insert_query("""
-                        INSERT INTO users (user_name)
-                        VALUES (%s)
-                        """,
-                        (p_user_name,)
-                        )
+    try:
+        with get_db_connection() as connection:
+            with connection.cursor(dictionary=True) as cursor:
+                cursor.execute("""
+                            INSERT INTO users (user_name)
+                            VALUES (%s)
+                            """,
+                            (p_user_name,)
+                )
+                connection.commit()
+                last_id = cursor.lastrowid
+                print("New user ID:", last_id)
+    except connection.Error as err:
+        print(f"Insertion error: {err}")
+        return None
 
-# TODO check how to use cursor.lastrowid
-# Create a function to insert a new account for a new user
+# Create a function to insert a new account
 def insert_account(p_account_name, p_user_id, p_created_at):
-    execute_insert_query("""
-                        INSERT INTO accounts (account_name, user_id, created_at)
-                        VALUES (%s, %s, %s)
-                        """,
-                        (p_account_name, p_user_id, p_created_at)
-                        )    
+    try:
+        with get_db_connection() as connection:
+            with connection.cursor(dictionary=True) as cursor:
+                cursor.execute("""
+                               INSERT INTO accounts (account_name, user_id, created_at)
+                               VALUES (%s, %s, %s)
+                               """,
+                               (p_account_name, p_user_id, p_created_at)
+                )
+                connection.commit()
+                last_id = cursor.lastrowid
+                print("New account ID:", last_id)
+    except connection.Error as err:
+        print(f"Insertion error: {err}")
+        return None
         
 # Create a function to insert a new transaction
-# TODO check if the account id is valid
 def insert_transaction(account_id, amount, transaction_type, description, transaction_date):
-    with get_db_connection() as connection:
-        with connection.cursor(dictionary=True) as cursor:
-            args = (account_id, amount, transaction_type, description, transaction_date)
-            cursor.callproc('InsertTransactionValues', args)
-            connection.commit()
+    try:
+        with get_db_connection() as connection:
+            with connection.cursor(dictionary=True) as cursor:
+                args = (account_id, amount, transaction_type, description, transaction_date)
+                cursor.callproc('InsertTransactionValues', args)
+                connection.commit()
+    except connection.Error as err:
+        print(f"Insertion error: {err}")
+        return None
 
 # Create a function to delete an account with account_id and user_id
 def delete_account(p_account_id, p_user_id):
-    with get_db_connection() as connection:
-        with connection.cursor(dictionary=True) as cursor:
-            cursor.execute("""
-                          DELETE FROM accounts
-                          WHERE account_id = %s AND user_id = %s
-                          """,
-                          (p_account_id, p_user_id)
-                        )
-            connection.commit()
+    try:
+        with get_db_connection() as connection:
+            with connection.cursor(dictionary=True) as cursor:
+                cursor.execute("SET FOREIGN_KEY_CHECKS = 0")
+                cursor.execute("""
+                            DELETE FROM accounts
+                            WHERE account_id = %s AND user_id = %s
+                            """,
+                            (p_account_id, p_user_id)
+                            )
+                cursor.execute("SET FOREIGN_KEY_CHECKS = 1")
+                connection.commit()
+    except connection.Error as err:
+        print(f"Deletion error: {err}")
+        return None
 
+# Create a function to delete an user with user_id
+def delete_user(p_user_id):
+    try:
+        with get_db_connection() as connection:
+            with connection.cursor(dictionary=True) as cursor:
+                cursor.execute("SET FOREIGN_KEY_CHECKS = 0")
+                cursor.execute("""
+                               DELETE FROM users
+                               WHERE user_id = %s
+                               """,
+                               (p_user_id,)
+                )
+                cursor.execute("SET FOREIGN_KEY_CHECKS = 1")
+                connection.commit()
+    except connection.Error as err:
+        print(f"Deletion error: {err}")
+        return None
 
 
 if __name__ == "__main__":
@@ -157,11 +191,11 @@ if __name__ == "__main__":
     # print(get_transactions_by_params(hf_transaction_type_id = 4))
     # insert_user('chika3')
     # insert_transaction(4, 5.00, 'reward', 'for helping chores', '2026-05-03')
-    # insert_account ('chika account', 5, '2026-05-02')
-    # delete_account(6, 5)
-    print(get_account_balance())
-    
-
+    # insert_account ('paul2 account', 4, '2026-05-03')
+    # delete_account(4, 4)
+    # print(get_account_balance())
+    # delete_user(4)
+    print("hello")
 
 
 
