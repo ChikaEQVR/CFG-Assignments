@@ -43,8 +43,7 @@ from
 import  
 **Flask** to run flask app  
 **request** to request json format to get      
-**jsonify** to converts the Python dictionary into JSON response from flask module.   
-
+**jsonify** to converts the Python dictionary into JSON response from flask module.  
 To use functions in `db_utils.py`  
 from  
 **db_utils**
