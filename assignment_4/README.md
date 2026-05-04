@@ -110,7 +110,8 @@ User already exists.
 
 - To add a new account: http://127.0.0.1:5000/accounts
 
-If creating for a new user, use variable: *max_user_id*, if existing user, input user_id  
+If creating for a new user, use variable: *max_user_id*.  
+If existing user, input user_id.    
 ```
   user_id = #input user_id here   
   new_account = {  
