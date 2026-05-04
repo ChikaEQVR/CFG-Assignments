@@ -25,7 +25,7 @@ Please pip install the following packages:
 This file is used to connect with MySQL database with credential from `.env`
   
 - `db_utils.py`:  
-This file is used to interact with MySQL creating helper functions to use in `app.py`.
+This file is used to interact with MySQL creating helper functions to use in `app.py`.  
 I have created more functions than I used in `app.py` for the future use.
 
 - `app.py`:  
