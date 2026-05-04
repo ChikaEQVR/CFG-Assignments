@@ -98,7 +98,7 @@ The responses will retun in JSON format.
 #### POST ####
 - To add a new user : http://127.0.0.1:5000/users  
 ```
-  new_user = {"user_name" : "#input new user name here"}  
+  new_user = {"user_name" : "# input new user name here"}  
   response = requests.post("http://127.0.0.1:5000/users", json=new_user)  
 ```
 If user added succesfully:   
@@ -113,11 +113,11 @@ User already exists.
 If creating for a new user, use variable: *max_user_id*.  
 If existing user, input user_id.    
 ```
-  user_id = #input user_id here   
+  user_id = # input user_id here   
   new_account = {  
-      "account_name": "#input new account name here",  
+      "account_name": "# input new account name here",  
       "user_id": user_id,  
-      "created_at": "#input creation date here" }  
+      "created_at": "# input creation date here" }  
   response = requests.post("http://127.0.0.1:5000/accounts", json=new_account)  
 ```
 If account added succesfully:  
