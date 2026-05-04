@@ -47,53 +47,53 @@ The responses will retun in JSON format.
 - API call to retrieve all users: http://127.0.0.1:5000/users
 
 >> ###### Fields in API response ######
->> `user_id`: int
->> `user_name`: string
+>> `user_id`: int  
+>> `user_name`: string  
 
 
 - API call to retrieve all the accounts in the database: http://127.0.0.1:5000/accounts
 
 >> ###### Fields in API response ######
->> `account_id`: int
->> `account_name`: string
->> `created_at`: Date
+>> `account_id`: int  
+>> `account_name`: string  
+>> `created_at`: Date  
 
 
 - API call to retrieve all the transacions in the database: http://127.0.0.1:5000/transactions
 
 >> ###### Fields in API response ######
->> `account_id`: int
->> `amount`: decimal
->> `description`: text
->> `transaction_date`: Date
->> `transacion_id`: int
->> `transaction_type`: int
+>> `account_id`: int  
+>> `amount`: decimal  
+>> `description`: text  
+>> `transaction_date`: Date  
+>> `transacion_id`: int  
+>> `transaction_type`: int  
 
 
 - API call to retrieve an account with an user_id: http://127.0.0.1:5000/accounts/<int:user_id>
 
 >> ###### Fields in API response ######
->> `account_id`: int
->> `account_name`: string
->> `created_at`: Date
+>> `account_id`: int  
+>> `account_name`: string  
+>> `created_at`: Date  
 
 
 - API call to retrieve transacions in an account: http://127.0.0.1:5000/transactions/<int:account_id>
 
 >> ###### Fields in API response ######
->> `account_id`: int
->> `amount`: decimal
->> `description`: text
->> `transaction_date`: Date
->> `transacion_id`: int
->> `transaction_type`: int
+>> `account_id`: int  
+>> `amount`: decimal  
+>> `description`: text  
+>> `transaction_date`: Date  
+>> `transacion_id`: int  
+>> `transaction_type`: int  
 
 
 - API call to retrieve balance for each account: http://127.0.0.1:5000/balance
 
 >> ###### Fields in API response ######
->> `account_id`: int
->> `balance`: decimal
+>> `account_id`: int  
+>> `balance`: decimal  
 
 
 - To add a new user : http://127.0.0.1:5000/users
