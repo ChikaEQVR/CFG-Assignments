@@ -56,7 +56,7 @@ def get_account(p_account_id=None, p_search_term=None, p_user_id=None, p_created
         query += " AND user_id = %s"
         params.append(p_user_id)
 
-    if p_created_at: # ##### TODO need to put if date format is not correnct ie not YYYY-MM-DD
+    if p_created_at: 
         query += " AND created_at = %s"
         params.append(p_created_at)
 
@@ -183,27 +183,5 @@ def delete_user(p_user_id):
 
 
 if __name__ == "__main__":
-    # print(get_all_users())    
-    # print(get_user_id('isla'))
-    # print(get_all_accounts())
-    # print(get_account(hf_user_id = 3))
-    # print(get_all_transactions())
-    # print(get_transactions_by_params(hf_transaction_type_id = 4))
-    # insert_user('chika3')
-    # insert_transaction(4, 5.00, 'reward', 'for helping chores', '2026-05-03')
-    # insert_account ('paul2 account', 4, '2026-05-03')
-    # delete_account(4, 4)
-    # print(get_account_balance())
-    # delete_user(4)
-    print("hello")
-
-
-
-
-
-
-
-# Document how to run your API in a markdown file including editing
-# the config file, any installation requirements up until how to run the
-# code and what is supposed to happen.
-# Submit in GitHub as a Pull Request
+    # for testing.
+    print(get_all_users())    

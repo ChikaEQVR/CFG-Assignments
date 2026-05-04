@@ -13,8 +13,6 @@ def run():
     print()     # give a blank space to have a break from each API call
 
     # Implement client-side for each of the 3 API endpoints you have created.
-
-    
     # get all users from the endpoint for users
     print("** Retrieving all users **")
 
@@ -95,7 +93,7 @@ def run():
     # add a new user
     print("** Adding a new user **")
 
-    new_user = {"user_name" : "chika4"}
+    new_user = {"user_name" : "chika"}
     response = requests.post("http://127.0.0.1:5000/users", json=new_user)
     if response.status_code == 201:
         print(f"New user added successfully. New user ID: {max_user_id}")
@@ -110,7 +108,7 @@ def run():
 
     user_id = max_user_id   # if creating for a new user, use max_user_id, if existing user, input user_id
     new_account = {
-        "account_name": "chika4 account",
+        "account_name": "chika account",
         "user_id": user_id,
         "created_at": "2026-05-03"
     }
@@ -125,10 +123,10 @@ def run():
     print("** Adding a new transaction **")
 
     new_transaction = {
-        "account_id" : 6,
+        "account_id" : 3,
         "amount": 3.00,
-        "transaction_type" : "allowance",
-        "description" : "weekly allowance",
+        "transaction_type" : "reward",
+        "description" : "for helping cooking",
         "transaction_date" : "2026-05-03"
     }
     response = requests.post("http://127.0.0.1:5000/transactions", json=new_transaction)
@@ -137,6 +135,5 @@ def run():
     else:
         print(f"Failed to add transaction. Status code: {response.status_code}")
 
-
-# add readme file
+# Run the tests
 run()

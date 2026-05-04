@@ -1,13 +1,13 @@
 # Have correct but minimal imports per file (do not import things you do not use in the file)
 from flask import Flask, request, jsonify
-from db_utils import get_all_users, get_all_accounts, get_all_transactions, get_account, get_transactions_by_params, get_account_balance, insert_user, insert_account, insert_transaction, delete_account
+from db_utils import get_all_users, get_all_accounts, get_all_transactions, get_account, get_transactions_by_params, get_account_balance, insert_user, insert_account, insert_transaction
 
+# To start Flask app
 app = Flask(__name__)
 
 @app.route('/')
 def home():
     return "Welcome to the Pocket Money Management API! You can manage your children's pocket money and analyse transactions."
-
 
 # Implement 2 API endpoints with appropriate functionality
 # Use appropriate SQL queries to interact with the database in your
@@ -17,16 +17,15 @@ def home():
 @app.route('/users', methods = ['GET'])
 def users():
     try:
+        # get_all_users returns None if there is an exception.
         all_users = get_all_users()
 
         if all_users is not None:
-            # this is workiong
             return jsonify(all_users)
-
         elif all_users is None:
-            # but if its not working, what do you return here?
             return "something went wrong and could not retrieve data"
         
+    # exception handler for errors outside get_all_users
     except Exception as e:
         return f"something went wrong {e}"
 
@@ -38,7 +37,6 @@ def accounts():
 
         if all_accounts is not None:
             return jsonify(all_accounts)
-        
         elif all_accounts is None:
             return "something went wrong and could not retrieve data"
         
@@ -53,13 +51,11 @@ def get_account_by_user_id(user_id):
 
         if account_by_user_id is not None:
             return jsonify(account_by_user_id)
-        
         elif account_by_user_id is None:
             return "something went wrong and could not retrieve data"
         
     except Exception as e:
         return f"something went wrong {e}"
-    
 
 # get request to get all the transactions
 @app.route('/transactions', methods = ['GET'])
@@ -69,7 +65,6 @@ def transactions():
 
         if all_transactions is not None:
             return jsonify(all_transactions)
-        
         elif all_transactions is None:
             return "something went wrong and could not retrieve data"
     
@@ -84,7 +79,6 @@ def get_transactions_by_account_id(account_id):
 
         if transactions_by_account_id is not None:
             return jsonify(transactions_by_account_id)
-        
         elif transactions_by_account_id is None:
             return "something went wrong and could not retrieve data"
     
@@ -99,7 +93,6 @@ def balance():
 
         if account_balance is not None:
             return jsonify(account_balance)
-        
         elif account_balance is None:
             return "something went wrong and could not retrieve data"
         
