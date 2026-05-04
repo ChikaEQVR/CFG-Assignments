@@ -22,21 +22,22 @@ Please pip install the follwoing packages:
 
 ##### How the files are connecting:
 - `config.py`: 
-It is importing credentials from `.env` using 2 modules: **os**, **dotenv**
+It is importing credentials from `.env` using 2 modules: **os**, **dotenv**  
 It is also connecting to the database and opening cursor using **mysql.connector** module
 
 - `db_utils.py`:
-It is importing `config.py` to connect to the datanase and opening cursor
+It is importing `config.py` to connect to the datanase and opening cursor  
 This file is used to interact mysql creating helper functions to use in `app.py`
 
 - `app.py`:
-It is importing **Flask** to run flask app, **request** to request json format to get, **jsonify** to converts the Python dictionary into JSON response from **flask** module
-In this file, API endpoints are created using Flask app.
-To run flask app, please type **flask run** or type **flask --app app run**
+It is importing **Flask** to run flask app, **request** to request json format to get,  
+**jsonify** to converts the Python dictionary into JSON response from **flask** module  
+In this file, API endpoints are created using Flask app.  
+To run flask app, please type **flask run** or type **flask --app app run**  
 
 - `main.py`:
-It is importing **requests** to call the API created from client side.
-To run main.py, please run flask app in `app.py` first then run the run() function
+It is importing **requests** to call the API created from client side.  
+To run main.py, please run flask app in `app.py` first then run the run() function  
 
 #### Pocket Money Manager AIP ####
 The responses will retun in JSON format.
