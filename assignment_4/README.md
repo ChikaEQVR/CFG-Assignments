@@ -98,8 +98,8 @@ The responses will retun in JSON format.
 
 - To add a new user : http://127.0.0.1:5000/users
 
->> new_user = {"user_name" : "*input new user name here*"}
->> response = requests.post("http://127.0.0.1:5000/users", json=new_user)
+>>>> new_user = {"user_name" : "*input new user name here*"}
+>>>> response = requests.post("http://127.0.0.1:5000/users", json=new_user)
 
 >> If user added succesfully: 
 >> New user added successfully. New user ID: <int: new user id>
@@ -111,12 +111,12 @@ The responses will retun in JSON format.
 - To add a new account: http://127.0.0.1:5000/accounts
 
 >> If creating for a new user, use variable: *max_user_id*, if existing user, input user_id
->> user_id = *input user_id here*   
->> new_account = {
->>>> "account_name": "*input new account name here*",
->>>> "user_id": user_id,
->>>> "created_at": "*input creation date here*" }
->> response = requests.post("http://127.0.0.1:5000/accounts", json=new_account)
+>>>> user_id = *input user_id here*   
+>>>> new_account = {  
+>>>>     "account_name": "*input new account name here*",
+>>>>     "user_id": user_id,
+>>>>     "created_at": "*input creation date here*" }
+>>>> response = requests.post("http://127.0.0.1:5000/accounts", json=new_account)
 
 >> If account added succesfully: 
 >> New account added successfully.
@@ -124,21 +124,21 @@ The responses will retun in JSON format.
 
 - To add a new transaction: http://127.0.0.1:5000/transactions
 
->> new_transaction = {
+>>>> new_transaction = {
 >>>>     "account_id" : *input account_id here*,
 >>>>     "amount": *input amount with decimal here*,
 >>>>     "transaction_type" : "*input transaction_type here*",
 >>>>     "description" : "*input description here*",
 >>>>     "transaction_date" : "*input transaction date here" }
->> response = requests.post("http://127.0.0.1:5000/transactions", json=new_transaction)
+>>>> response = requests.post("http://127.0.0.1:5000/transactions", json=new_transaction)
 
 >> transaction_type to input: explanation for what is for
->>>> - allowance: for pocket moeny
->>>> - spend: for all expense spent. Amount should be input with ***negative number***
->>>> - reward: for any help  outside routine
->>>> - gift: for any money given other than pocketmoney
->>>> - fine: for any deduction, the parents decided. Amount should be input with ***negative number***
->>>> - refund: for moeny the parents borrowed temporary.
+>>> - allowance: for pocket moeny
+>>> - spend: for all expense spent. Amount should be input with ***negative number***
+>>> - reward: for any help  outside routine
+>>> - gift: for any money given other than pocketmoney
+>>> - fine: for any deduction, the parents decided. Amount should be input with ***negative number***
+>>> - refund: for moeny the parents borrowed temporary.
 
 >> If account added succesfully: 
 >> New transaction added succesfully.
