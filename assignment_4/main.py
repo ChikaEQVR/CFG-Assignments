@@ -93,7 +93,7 @@ def run():
     # add a new user
     print("** Adding a new user **")
 
-    new_user = {"user_name" : "chika"}
+    new_user = {"user_name" : "jane"}
     response = requests.post("http://127.0.0.1:5000/users", json=new_user)
     if response.status_code == 201:
         print(f"New user added successfully. New user ID: {max_user_id}")
@@ -108,7 +108,7 @@ def run():
 
     user_id = max_user_id   # if creating for a new user, use max_user_id, if existing user, input user_id
     new_account = {
-        "account_name": "chika account",
+        "account_name": "jane account",
         "user_id": user_id,
         "created_at": "2026-05-03"
     }

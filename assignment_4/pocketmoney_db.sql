@@ -84,9 +84,9 @@ DELIMITER ;
 
 INSERT INTO users (user_name)
 VALUES 
-('noah'),
-('isla'),
-('cian')
+('ben'),
+('anna'),
+('chris')
 ;
 
 # Insert values into transaction_types table
@@ -103,9 +103,9 @@ VALUES
 # Insert values into accounts table
 INSERT INTO accounts (account_name, user_id, created_at) 
 VALUES 
-	('noah pocket money', 1, '2026-01-04'),
-	('isla pocket money', 2, '2026-01-04'),
-	('cian pocket money', 3, '2026-01-04')
+	('ben pocket money', 1, '2026-01-04'),
+	('anna pocket money', 2, '2026-01-04'),
+	('chris pocket money', 3, '2026-01-04')
 ;
 
 # Insert values into transactions using InsertTransactionValues(p_account_id, p_amount,p_transaction_type, p_description,p_transaction_date)
